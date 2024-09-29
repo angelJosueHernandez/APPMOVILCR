@@ -52,5 +52,5 @@ Join our community of developers creating universal apps.
 
 
 
-[Ver documento PDF de la Planeacion](./Planeación App Móvil.pdf)
+[Ver documento PDF de la Planeacion](./Planeación_App_Móvil.pdf)
 
