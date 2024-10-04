@@ -114,21 +114,21 @@ Para el desarrollo de la aplicación se eligió la pila MERN STACK, como se mues
   
 - **Capa de Negocio**:
 - Node.js
-![.](https://www.google.com/imgres?q=node%20js&imgurl=https%3A%2F%2Fwww.muylinux.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fnodejs.png&imgrefurl=https%3A%2F%2Fwww.muylinux.com%2F2022%2F04%2F27%2Fnodejs-18%2F&docid=Gkm0dcMeylemdM&tbnid=0cR72ir89_N2EM&vet=12ahUKEwjt3o21q_WIAxW-78kDHV_RNA8QM3oFCIIBEAA..i&w=1200&h=720&hcb=2&ved=2ahUKEwjt3o21q_WIAxW-78kDHV_RNA8QM3oFCIIBEAA)
+![a.](https://www.google.com/imgres?q=node%20js&imgurl=https%3A%2F%2Fwww.muylinux.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fnodejs.png&imgrefurl=https%3A%2F%2Fwww.muylinux.com%2F2022%2F04%2F27%2Fnodejs-18%2F&docid=Gkm0dcMeylemdM&tbnid=0cR72ir89_N2EM&vet=12ahUKEwjt3o21q_WIAxW-78kDHV_RNA8QM3oFCIIBEAA..i&w=1200&h=720&hcb=2&ved=2ahUKEwjt3o21q_WIAxW-78kDHV_RNA8QM3oFCIIBEAA)
 
-![.](https://kinsta.com/es/base-de-conocimiento/que-es-express/)
+![c.](https://kinsta.com/es/base-de-conocimiento/que-es-express/)
 
-![.](https://docs.abstractapi.com/company-enrichment)
+![d.](https://docs.abstractapi.com/company-enrichment)
 
-![.](https://community.nodemailer.com/)
+![d.](https://community.nodemailer.com/)
 
 - **Capa de Datos**:
   
-![.](https://www.google.com/imgres?q=sql%20server&imgurl=https%3A%2F%2Fitsoftware.com.co%2Fcontent%2Fwp-content%2Fuploads%2F2023%2F07%2FSQL-Server-1.png&imgrefurl=https%3A%2F%2Fitsoftware.com.co%2Fcontent%2Fque-es-sql-server-su-historia-ventajas-y-beneficios%2F&docid=BOcz82Pvovv3AM&tbnid=8jxNLNtTwqyn7M&vet=12ahUKEwjR8_v9q_WIAxWnMdAFHUv-EvwQM3oECBUQAA..i&w=600&h=448&hcb=2&ved=2ahUKEwjR8_v9q_WIAxWnMdAFHUv-EvwQM3oECBUQAA)
+![dv.](https://www.google.com/imgres?q=sql%20server&imgurl=https%3A%2F%2Fitsoftware.com.co%2Fcontent%2Fwp-content%2Fuploads%2F2023%2F07%2FSQL-Server-1.png&imgrefurl=https%3A%2F%2Fitsoftware.com.co%2Fcontent%2Fque-es-sql-server-su-historia-ventajas-y-beneficios%2F&docid=BOcz82Pvovv3AM&tbnid=8jxNLNtTwqyn7M&vet=12ahUKEwjR8_v9q_WIAxWnMdAFHUv-EvwQM3oECBUQAA..i&w=600&h=448&hcb=2&ved=2ahUKEwjR8_v9q_WIAxWnMdAFHUv-EvwQM3oECBUQAA)
 
-![.](https://www.crv.com/companies/vercel)
+![vds.](https://www.crv.com/companies/vercel)
 
-![.]([https://community.nodemailer.com/](https://unaaldia.hispasec.com/2019/08/acceso-no-autorizado-a-datos-de-al-menos-14-millones-de-clientes-de-hostinger.html))
+![sd.]([https://community.nodemailer.com/](https://unaaldia.hispasec.com/2019/08/acceso-no-autorizado-a-datos-de-al-menos-14-millones-de-clientes-de-hostinger.html))
 
 ## 9 Issue Tracking y Asignación de Issue
 - **9.1	Herramienta de planeación**
