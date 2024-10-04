@@ -114,26 +114,27 @@ Para el desarrollo de la aplicación se eligió la pila MERN STACK, como se mues
   
 - **Capa de Negocio**:
 - Node.js
-![React Native](https://www.workiy.com/sites/default/files/inline-images/514-5142665_react-native-transparent-react-native-logo-png-png.png )
+![.](https://www.google.com/imgres?q=node%20js&imgurl=https%3A%2F%2Fwww.muylinux.com%2Fwp-content%2Fuploads%2F2022%2F04%2Fnodejs.png&imgrefurl=https%3A%2F%2Fwww.muylinux.com%2F2022%2F04%2F27%2Fnodejs-18%2F&docid=Gkm0dcMeylemdM&tbnid=0cR72ir89_N2EM&vet=12ahUKEwjt3o21q_WIAxW-78kDHV_RNA8QM3oFCIIBEAA..i&w=1200&h=720&hcb=2&ved=2ahUKEwjt3o21q_WIAxW-78kDHV_RNA8QM3oFCIIBEAA)
 
-![React Native](https://www.workiy.com/sites/default/files/inline-images/514-5142665_react-native-transparent-react-native-logo-png-png.png )
+![.](https://kinsta.com/es/base-de-conocimiento/que-es-express/)
 
-![React Native](https://www.workiy.com/sites/default/files/inline-images/514-5142665_react-native-transparent-react-native-logo-png-png.png )
+![.](https://docs.abstractapi.com/company-enrichment)
+
+![.](https://community.nodemailer.com/)
 
 - **Capa de Datos**:
   
-![React Native](https://www.workiy.com/sites/default/files/inline-images/514-5142665_react-native-transparent-react-native-logo-png-png.png )
+![.](https://www.google.com/imgres?q=sql%20server&imgurl=https%3A%2F%2Fitsoftware.com.co%2Fcontent%2Fwp-content%2Fuploads%2F2023%2F07%2FSQL-Server-1.png&imgrefurl=https%3A%2F%2Fitsoftware.com.co%2Fcontent%2Fque-es-sql-server-su-historia-ventajas-y-beneficios%2F&docid=BOcz82Pvovv3AM&tbnid=8jxNLNtTwqyn7M&vet=12ahUKEwjR8_v9q_WIAxWnMdAFHUv-EvwQM3oECBUQAA..i&w=600&h=448&hcb=2&ved=2ahUKEwjR8_v9q_WIAxWnMdAFHUv-EvwQM3oECBUQAA)
 
-![React Native](https://www.workiy.com/sites/default/files/inline-images/514-5142665_react-native-transparent-react-native-logo-png-png.png )
+![.](https://www.crv.com/companies/vercel)
 
-![React Native](https://www.workiy.com/sites/default/files/inline-images/514-5142665_react-native-transparent-react-native-logo-png-png.png )
+![.]([https://community.nodemailer.com/](https://unaaldia.hispasec.com/2019/08/acceso-no-autorizado-a-datos-de-al-menos-14-millones-de-clientes-de-hostinger.html))
 
-
-### 9 Issue Tracking y Asignación de Issue
+## 9 Issue Tracking y Asignación de Issue
 - **9.1	Herramienta de planeación**
 La herramienta elegida para la asignación de actividades en la planificación es ClickUp, en la cual se integraron los miembros del equipo, así como los docentes a revisar los entregables.
 
-### 10 Selección de herramienta de control de versiones
+## 10 Selección de herramienta de control de versiones
 Para el manejo de versionamiento se eligió GitHub. 
 
 Consideramos que dentro del desarrollo del proyecto el control de versiones es esencial para asegurar el trabajo colaborativo y poder trabajar en diferentes funcionalidades sin riesgo de sobrescribir el trabajo de otros. Esta herramienta nos permitirá registrar y revisar cada cambio hecho en el código, con la posibilidad de volver a versiones anteriores si surge algún problema. Esto proporciona un entorno más seguro y organizado para el desarrollo. Al desarrollar la aplicación, los integrantes del equipo podremos trabajar en distintas características o resolver bugs de manera simultánea sin afectar el código principal (branch main o master). Los pull requests permiten revisar el código de manera colaborativa antes de integrarlo al proyecto principal, lo que ayuda a garantizar la calidad y a mantener la coherencia en el estilo de codificación. GitHub se integra fácilmente con plataformas de Integración Continua y Entrega Continua (CI/CD). Estas integraciones permiten ejecutar automáticamente pruebas unitarias, de integración y de interfaz de usuario cada vez que se realiza un cambio en el código. Además, GitHub permite automatizar el proceso de generación. GitHub permite una gestión avanzada de ramas, lo que facilita a los equipos trabajar en diferentes funcionalidades, mejoras o correcciones de errores sin afectar el código principal hasta que todo esté probado y listo para ser fusionado. GitHub ofrece una forma organizada de gestionar estas ramas, permitiendo que los desarrolladores trabajen en distintas características o correcciones de forma simultánea sin interferencias, hasta que los cambios estén listos para ser integrados en la rama principal. Facilita la automatización de pruebas y despliegue, lo cual es crucial para asegurar la calidad continua en un entorno de desarrollo rápido como el de React Native.
@@ -141,7 +142,7 @@ Consideramos que dentro del desarrollo del proyecto el control de versiones es e
 
 GitHub permite la colaboración y revisión del código entre los miembros del equipo y asi poder realizar cambios, corrección de errores y agregar modificaciones en caso de que sea necesario para el proyecto. 
 
-### 11	Selección de estrategia de versionamiento
+## 11	Selección de estrategia de versionamiento
 Para el desarrollo de nuestra aplicación móvil, hemos optado por utilizar un flujo de trabajo centralizado para el control de versiones. Esta estrategia se adapta perfectamente a las necesidades de un equipo pequeño como el nuestro, compuesto por tres integrantes.
 
 El flujo de trabajo centralizado se basa en el uso de un único repositorio central donde la rama principal (main) contiene siempre la versión estable del código. Todos los desarrolladores realizan cambios directamente en esta rama, asegurando que:
@@ -151,59 +152,58 @@ El flujo de trabajo centralizado se basa en el uso de un único repositorio cent
 
 Además, esta estrategia nos permite mantener un control claro sobre los cambios en el proyecto, evitando la complejidad que puede surgir con el uso de múltiples ramas. Como herramienta de control de versiones, utilizaremos GitHub, el cual ofrece una plataforma robusta para la colaboración en tiempo real, la revisión de código y la integración continua (CI) mediante flujos de trabajo automatizados para ejecutar pruebas y asegurar la calidad del código.
 
- ### 12 Creación, revisión y fusión de ramas. 
+ ## 12 Creación, revisión y fusión de ramas. 
 Por el tipo de estrategia de versionamiento seleccionado el equipo de desarrollo trabaja única rama central del repositorio, generalmente llamada "main" o "master".
 
 - **12.1 Creación de la rama**
   
 Cuando un miembro del equipo necesita trabajar en una nueva funcionalidad o corrección de errores, se debe crear una nueva rama basada en la rama central (main/master) para aislar los cambios. Para ello se debe asegurar de estar en la última versión de la rama central (main o master) y de que el código esté actualizado.
 
-	```bash
+	
 	    git clone https://github.com/tu-repositorio.git
-	```
-	```bash
+	
+	
 	    git pull origin main
-	```
+	
 
 
 •	Crear una nueva rama: Crear una nueva rama para la tarea específica. El nombre de la rama debe ser descriptivo y reflejar la tarea que se esté realizando.
 
-	```bash
+	
 	   git checkout -b feature/nueva-funcionalidad
-	```
+	
 
 •	Realizar todos los cambios necesarios en la nueva rama, asegurándose de que no afecten la estabilidad del proyecto en la rama principal. A medida del avance, se realizan commits regulares con mensajes claros y descriptivos sobre los cambios realizados.
 
 
-	```bash
 	   git add .
            commit -m "Descripción clara del cambio realizado"
-	```
+	
 
 
 •	Revisión de la rama:
 
 Antes de fusionar los cambios en la rama central, la rama debe ser revisada para asegurar que cumple con los requisitos del proyecto y no introduce errores. Una vez que hayas terminado de trabajar en la nueva funcionalidad, sube tu rama al repositorio remoto para que otros puedan revisarla.
 
-	```bash
+
 	   git push origin feature/nueva-funcionalidad
-	```
+	
 
 Abrir una solicitud de revisión (Pull Request): En la plataforma de control de versiones que es GitHub se crea una Pull Request (PR) desde la rama nueva hacia la rama central (main o master).
 
 •	Fusión de ramas: 
 Una vez que la revisión ha sido aprobada y no hay más correcciones pendientes, se fusiona la rama al repositorio central. Antes de fusionar, asegurarse de estar en la última versión de la rama central y luego fusiona tu rama.
 
-	```bash
+	
 	   git checkout main
 	   git pull origin main
 	   git merge feature/nueva-funcionalidad
-	```
+	
 
-### 12.2 Estrategia contempla la integración continua CI
+## 12.2 Estrategia contempla la integración continua CI
 Este tipo de estrategia si contempla la integración continua, ya que una estrategia de versionamiento centralizado, la rama principal (normalmente main o master) es el único lugar donde se realiza la integración continua de código. Los desarrolladores crean ramas temporales para desarrollar nuevas funcionalidades o correcciones, pero todos los cambios se integran de nuevo en la rama principal una vez revisados. La Integración Continua en el contexto del versionamiento centralizado se centra en garantizar que la rama principal siempre esté en un estado estable. Esto significa que cada vez que se fusionan ramas de características o correcciones a la rama principal, se deben realizar pruebas automatizadas para asegurarse de que la aplicación no se rompa. Para garantizar la calidad del código que se fusiona en la rama central, es crucial utilizar un flujo de Pull Requests (PR) donde otros miembros del equipo revisan el código antes de ser fusionado. 
 
-### 13.	Estrategia de despliegue 
+## 13.	Estrategia de despliegue 
 Para el despliegue de la aplicación móvil, implementaremos la estrategia Canary, con el objetivo de reducir riesgos al momento de lanzar nuevas versiones del software. Con esta estrategia, se despliega la nueva versión a un subconjunto limitado de usuarios antes de hacerlo disponible para todos. Esto nos permitirá:
 
 •	Minimizar riesgos: La versión nueva es probada por un pequeño grupo de usuarios, lo que nos permite identificar posibles errores sin afectar a toda la base de usuarios.
@@ -212,7 +212,7 @@ Para el despliegue de la aplicación móvil, implementaremos la estrategia Canar
 
 Esta estrategia es especialmente útil en proyectos de aplicaciones móviles, donde la experiencia del usuario es crítica. Requiere un monitoreo continuo del rendimiento y el comportamiento del sistema, para lo cual utilizaremos herramientas de monitoreo como Prometheus y Grafana si es necesario a medida que el proyecto crezca. Con el despliegue Canary, garantizamos que el servicio siga funcionando correctamente, mientras introducimos mejoras y nuevas funcionalidades de manera controlada.
 
-### 14.	Entornos de desarrollo
+## 14.	Entornos de desarrollo
 Para las herramientas seleccionadas en el entorno de desarrollo son las siguientes:
 •	Planificación
 Se eligió la herramienta de ClickUp usado para la gestión de las actividades definidas para el desarrollo del proyecto en donde nos permite organizar y planificar el trabajo del equipo de desarrollo. De igual manera nos permite crear y asignar tareas, fijar fechas límite y realizar un seguimiento del progreso del proyecto. Algunas de sus funcionalidades clave incluyen.
@@ -240,27 +240,27 @@ Para la parte de producción la herramienta seleccionada es Hostinger.
 
 El cual esta herramienta es un proveedor de servicios de hosting que nos permitirá desplegar el backend en un entorno de producción. En esta fase, el backend está disponible para usuarios reales y es accesible en internet.
 
-### 15.	Como clonar un repositorio 
+## 15.	Como clonar un repositorio 
 Para poder realizar la clonación del repositorio lo primero que se debe contemplar es tener instalado la herramienta de Git. Una vez que se tenga la herramienta instalada, se debe abrir la línea se comando o consola de nuestro equipo de computo y ejecutar el siguiente comando: 
 
-	```bash
+	
 	 git clone (URL_DEL_REPOSITORIO)
-	```
+	
 
 Y posteriormente navegar hacia el directorio para verificar que el proyecto se haya creado. 
 
-### 16.	Instalar dependencias
+## 16.	Instalar dependencias
 Para poder realizar la instalación de las dependencias debemos navegar hacia el directorio en donde se encuentra el proyecto, desde la terminal y una vez ahí adentro ejecutamos el siguiente comando: 
 
-	```bash
+	
 	npm install
-	```
+	
 
-### 17.	Ejecutar el proyecto
+## 17.	Ejecutar el proyecto
 Para la ejecución del proyecto, de igual manera estando en la terminar se ejecuta el comando: 
 
-	```bash
+	
 	expo start
-	```
+	
 
 Esto abrir o bueno nos proporcionara un código QR. Y escanear ese código para poder abrir la aplicación, un punto muy importante, debemos de tener una aplicación instalada en nuestro aparato móvil que se llama Expo Go.
