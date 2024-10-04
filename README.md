@@ -255,3 +255,5 @@ Para la ejecución del proyecto, de igual manera estando en la terminar se ejecu
 expo start
 Esto abrir o bueno nos proporcionara un código QR. Y escanear ese código para poder abrir la aplicación, un punto muy importante, debemos de tener una aplicación instalada en nuestro aparato móvil que se llama Expo Go.
  
+[Ver documento](./PlaneacionAppMovil.docx)
+ 
