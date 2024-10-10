@@ -1,101 +1,136 @@
 import React from 'react';
-import { Image, StyleSheet, TextInput, View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image, Platform } from 'react-native'; 
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function HomeScreen() {
   return (
-    <ScrollView style={styles.container}>
-      {/* Header con logo y texto */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>CRUZ ROJA HUEJUTLA</Text>
-        <Image source={require('../../assets/images/ambu.png')} style={styles.avatar} />
-      </View>
+    <View style={styles.container}>
+      <ScrollView>
+        {/* Encabezado con curva y degradado */}
+        <LinearGradient
+          colors={['#E5415C', '#E05C73']} // Degradado de rojo oscuro a claro
+          style={styles.header}
+        >
+          <View style={styles.headerContent}>
+            <Text style={styles.headerText}>CRUZ ROJA HUEJUTLA</Text>
+            <Icon name="notifications" size={20} color="#fff" style={styles.bellIcon} />
+          </View>
+        </LinearGradient>
 
-      {/* Barra de búsqueda */}
-      <View style={styles.searchContainer}>
-        <TextInput placeholder="Buscar" style={styles.searchInput} />
-      </View>
-
-      {/* Sección de botones */}
-      <View style={styles.buttonContainer}>
-        <View style={styles.helpButton}>
-          <Text style={styles.helpButtonText}>BOTON DE AYUDA</Text>
-          <Text style={styles.helpButtonDescription}>
-            Un Clic para la Ayuda Vital! Con nuestro botón de emergencia, la Cruz Roja está a tu lado en segundos.
-          </Text>
-          <TouchableOpacity style={styles.helpActionButton}>
-            <Text style={styles.actionButtonText}>AYUDA</Text>
-          </TouchableOpacity>
+        {/* Barra de búsqueda */}
+        <View style={styles.centerSearchContainer}>
+          <View style={styles.searchContainer}>
+            <Icon name="search" size={20} color="#809BD6" style={styles.searchIcon} />
+            <TextInput
+              placeholder="Buscar"
+              placeholderTextColor="#809BD6"
+              style={styles.searchInput}
+            />
+          </View>
         </View>
-      </View>
 
-      {/* Carrusel de imágenes */}
-      <View style={styles.carouselContainer}>
-        {/* Aquí iría un carrusel real */}
-        <Image source={require('../../assets/images/ambu.png')} style={styles.carouselImage} />
-        <Image source={require('../../assets/images/ambu.png')} style={styles.carouselImage} />
-      </View>
+        {/* Sección de botones */}
+        <View style={styles.buttonContainer}>
+          <View style={styles.helpButton}>
+            <Text style={styles.helpButtonText}>BOTON DE AYUDA</Text>
+            <Text style={styles.helpButtonDescription}>
+              Un Clic para la Ayuda Vital! Con nuestro botón de emergencia, la Cruz Roja está a tu lado en segundos.
+            </Text>
+            <TouchableOpacity style={styles.helpActionButton}>
+              <Text style={styles.actionButtonText}>AYUDA</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      {/* Sección de más opciones */}
-      <View style={styles.optionsContainer}>
-        <View style={styles.optionCard}>
-          <Text style={styles.optionTitle}>SOLICITAR CITA</Text>
-          <Text style={styles.optionDescription}>
-            Selebra tu cita fácil y rápido aquí.
-          </Text>
+        {/* Carrusel de imágenes */}
+        <View style={styles.carouselContainer}>
+          <Image source={require('../../assets/images/ambu.png')} style={styles.carouselImage} />
+          <Image source={require('../../assets/images/ambu.png')} style={styles.carouselImage} />
         </View>
-        <View style={styles.optionCard}>
-          <Text style={styles.optionTitle}>CONTRATACION DE SERVICIOS</Text>
-          <Text style={styles.optionDescription}>
-            Requieres trasladar a alguien en la Cruz Roja, agenda tu cita aquí.
-          </Text>
+
+        {/* Sección de más opciones */}
+        <View style={styles.optionsContainer}>
+          <View style={styles.optionCard}>
+            <Text style={styles.optionTitle}>SOLICITAR CITA</Text>
+            <Text style={styles.optionDescription}>
+              Selebra tu cita fácil y rápido aquí.
+            </Text>
+          </View>
+          <View style={styles.optionCard}>
+            <Text style={styles.optionTitle}>CONTRATACION DE SERVICIOS</Text>
+            <Text style={styles.optionDescription}>
+              Requieres trasladar a alguien en la Cruz Roja, agenda tu cita aquí.
+            </Text>
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       {/* Botón flotante */}
       <TouchableOpacity style={styles.floatingButton}>
         <Text style={styles.floatingButtonText}>+</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#ffffff',
   },
   header: {
-    backgroundColor: '#E5415C',
-    padding: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    height: 90, // Ajusta la altura según lo necesario
+    width: '100%',
+    borderBottomLeftRadius: 1000, // Borde redondeado en la esquina inferior izquierda
+    borderBottomRightRadius: 1000, // Borde redondeado en la esquina inferior derecha
+    overflow: 'hidden', // Ocultar cualquier desbordamiento
+  },
+  headerContent: {
+    position: 'absolute',
+    top: 30, // Ajustado para que el texto y la campana estén bien alineados
+    left: 0,
+    right: 0,
     alignItems: 'center',
   },
   headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 15, // Tamaño del texto reducido
     color: '#fff',
+    textAlign: 'center',
+    top:15,
   },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#fff',
+  bellIcon: {
+    position: 'absolute',
+    right: 35, // Alinea la campana a la derecha
+    top: 15,
+  },
+  centerSearchContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginVertical: 20,
   },
   searchContainer: {
-    padding: 20,
-  },
-  searchInput: {
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 10,
-    fontSize: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EAF0FB', // Color de fondo suave
+    borderRadius: 35, // Bordes redondeados
+    paddingHorizontal: 30,
+    height: 40, // Altura ajustada al tamaño de la imagen
+    width: 340, // Ancho ajustado
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5,
+  },
+  searchIcon: {
+    marginRight: 10, // Espacio entre el icono y el texto
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#000',
   },
   buttonContainer: {
     padding: 20,
@@ -111,7 +146,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   helpButtonText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
     color: '#E5415C',
     marginBottom: 10,
@@ -126,10 +161,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    width:90,
   },
   actionButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 12,
   },
   carouselContainer: {
     padding: 20,
@@ -181,6 +218,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5,
+    zIndex: 100, // Para asegurarse de que esté siempre por encima del contenido
   },
   floatingButtonText: {
     color: '#fff',
