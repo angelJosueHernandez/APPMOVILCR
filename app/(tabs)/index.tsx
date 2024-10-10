@@ -1,15 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image, Platform } from 'react-native'; 
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image, Modal, Pressable } from 'react-native'; 
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function HomeScreen() {
+  const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del popover
+
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView style={{ marginBottom: 50 }}>
         {/* Encabezado con curva y degradado */}
         <LinearGradient
-          colors={['#E5415C', '#E05C73']} // Degradado de rojo oscuro a claro
+          colors={['#E5415C', '#E05C73']}
           style={styles.header}
         >
           <View style={styles.headerContent}>
@@ -33,13 +36,55 @@ export default function HomeScreen() {
         {/* Sección de botones */}
         <View style={styles.buttonContainer}>
           <View style={styles.helpButton}>
+            <Image source={require('../../assets/images/ambu.png')} style={styles.ambu} />
             <Text style={styles.helpButtonText}>BOTON DE AYUDA</Text>
             <Text style={styles.helpButtonDescription}>
               Un Clic para la Ayuda Vital! Con nuestro botón de emergencia, la Cruz Roja está a tu lado en segundos.
             </Text>
+
             <TouchableOpacity style={styles.helpActionButton}>
               <Text style={styles.actionButtonText}>AYUDA</Text>
             </TouchableOpacity>
+
+            {/* Info con Popover */}
+            <TouchableOpacity style={styles.infoButton} onPress={() => setModalVisible(true)}>
+              <View style={styles.infoContainer}>
+                <FontAwesome6 name="circle-info" size={10} color="#E5415C" />
+                <Text style={styles.Info}> Info</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* Modal que actúa como popover */}
+            <Modal
+              transparent={true}
+              visible={modalVisible}
+              animationType="fade"
+              onRequestClose={() => setModalVisible(false)}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.popover}>
+                  <View style={styles.popoverHeader}>
+                    <Text style={styles.popoverTitle}>Información</Text>
+                    <TouchableOpacity onPress={() => setModalVisible(false)}>
+                      <FontAwesome name="close" size={16} color="#555" />
+                    </TouchableOpacity>
+                  </View>
+
+                  <Text style={styles.popoverText}>
+                    Aquí puedes obtener más información sobre el botón de ayuda y cómo funciona el sistema de emergencia.
+                  </Text>
+
+                  <View style={styles.popoverActions}>
+                    <Pressable
+                      style={[styles.button, styles.cancelButton]}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <Text style={styles.cancelButtonText}>Cerrar</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
 
@@ -80,28 +125,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   header: {
-    height: 90, // Ajusta la altura según lo necesario
+    height: 90,
     width: '100%',
-    borderBottomLeftRadius: 1000, // Borde redondeado en la esquina inferior izquierda
-    borderBottomRightRadius: 1000, // Borde redondeado en la esquina inferior derecha
-    overflow: 'hidden', // Ocultar cualquier desbordamiento
+    borderBottomLeftRadius: 1000,
+    borderBottomRightRadius: 1000,
+    overflow: 'hidden',
   },
   headerContent: {
     position: 'absolute',
-    top: 30, // Ajustado para que el texto y la campana estén bien alineados
+    top: 30,
     left: 0,
     right: 0,
     alignItems: 'center',
   },
   headerText: {
-    fontSize: 15, // Tamaño del texto reducido
+    fontSize: 15,
     color: '#fff',
     textAlign: 'center',
-    top:15,
+    top: 15,
   },
   bellIcon: {
     position: 'absolute',
-    right: 35, // Alinea la campana a la derecha
+    right: 35,
     top: 15,
   },
   centerSearchContainer: {
@@ -113,11 +158,11 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EAF0FB', // Color de fondo suave
-    borderRadius: 35, // Bordes redondeados
+    backgroundColor: '#EAF0FB',
+    borderRadius: 35,
     paddingHorizontal: 30,
-    height: 40, // Altura ajustada al tamaño de la imagen
-    width: 340, // Ancho ajustado
+    height: 40,
+    width: 340,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -125,7 +170,71 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   searchIcon: {
-    marginRight: 10, // Espacio entre el icono y el texto
+    marginRight: 10,
+  },
+  infoButton: {
+    marginTop: -10,
+    alignSelf: 'flex-start', // Alinea el botón a la izquierda
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 10, // Ajusta el área interactiva para que esté alrededor del ícono y la palabra "Info"
+  },
+  Info: {
+    fontSize: 11,
+    color: '#E5415C',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  popover: {
+    width: 300,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  popoverHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  popoverTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  popoverText: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 20,
+  },
+  popoverActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 5,
+    marginLeft: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#E5415C',
+  },
+  cancelButtonText: {
+    color: '#ffff',
+    fontWeight: 'bold',
   },
   searchInput: {
     flex: 1,
@@ -152,16 +261,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   helpButtonDescription: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#555',
     marginBottom: 10,
+    margin: 5,
+    lineHeight: 18,
   },
   helpActionButton: {
     backgroundColor: '#E5415C',
-    padding: 10,
+    padding: 8,
     borderRadius: 5,
     alignItems: 'center',
-    width:90,
+    width: 90,
+    marginLeft: 220,
+    top: 15,
   },
   actionButtonText: {
     color: '#fff',
@@ -205,7 +318,7 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 120,
     right: 30,
     backgroundColor: '#E5415C',
     width: 60,
@@ -218,11 +331,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 5,
-    zIndex: 100, // Para asegurarse de que esté siempre por encima del contenido
+    zIndex: 100,
   },
   floatingButtonText: {
     color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
+  },
+  ambu: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    marginLeft: 300,
+    top: -20,
   },
 });
