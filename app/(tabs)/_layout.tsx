@@ -1,49 +1,9 @@
-/**
- import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
-}
-
- */
-
-
-
 import { Tabs } from 'expo-router';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -52,15 +12,15 @@ function CustomTabBarButton({ onPress, children }) {
   return (
     <TouchableOpacity
       style={{
-        top: -20,
+        top: -20, // Elevar el botón central
         justifyContent: 'center',
         alignItems: 'center',
         ...styles.shadow,
       }}
-      onPress={onPress || (() => {})} // Asegurar que onPress tenga un valor por defecto
+      onPress={onPress}
     >
       <LinearGradient
-        colors={['#ff7e5f', '#feb47b']} // Degradado para el botón
+        colors={['#ff7e5f', '#feb47b']} // Degradado del botón central
         style={styles.gradientButton}
       >
         {children}
@@ -72,7 +32,6 @@ function CustomTabBarButton({ onPress, children }) {
 export default function TabLayout() {
   const activeTintColor = '#ff7e5f';
   const inactiveTintColor = '#c0c0c0';
-
   return (
     <Tabs
       screenOptions={{
@@ -82,87 +41,87 @@ export default function TabLayout() {
         tabBarStyle: {
           position: 'absolute',
           bottom: 0,
-          left: 1,
-          right: 1,
+          left: 10,
+          right: 10,
           backgroundColor: '#fff', // Fondo del tab bar
-          borderRadius: 5,
-          height: 50, // Altura del tab bar
-          ...styles.shadow, // Aplicar sombra
+          borderRadius: 20,
+          height: 60, // Altura del tab bar
+          ...styles.shadow,
         },
         tabBarShowLabel: false, // Ocultar etiquetas
       }}
     >
-      {/* Pestaña de Perfil */}
+      {/*Pantalla Principal*/}
       <Tabs.Screen
-        name="index"
+        name="login"
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <Icon
               name={focused ? 'person' : 'person-outline'}
-              size={18}
+              size={24}
+              color={color} // Color dinámico basado en el estado (activo/inactivo)
+            />
+          ),
+        }}
+      />
+      
+      {/*Pantalla Citas*/}
+      <Tabs.Screen
+        name="citas"
+        options={{
+          title: 'citas',
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome
+              name={focused ? 'address-book' : 'address-book'}
+              size={24}
               color={color} // Color dinámico basado en el estado (activo/inactivo)
             />
           ),
         }}
       />
 
-      {/* Pestaña de Grupos */}
+      {/*Botón central (Home)*/}
       <Tabs.Screen
-        name="groups"
-        options={{
-          title: 'Groups',
-          tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name={focused ? 'people' : 'people-outline'}
-              size={18}
-              color={color}
-            />
-          ),
-        }}
-      />
-
-      {/* Pestaña de Inicio */}
-      <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <Icon
               name={focused ? 'home' : 'home-outline'}
-              size={28} // Tamaño del ícono central
-              color={focused ? '#fff' : activeTintColor} // Cambiar color cuando está activo
+              size={30}
+              color={focused ? '#fff' : activeTintColor} // Color dinámico basado en el estado
             />
           ),
           tabBarButton: (props) => <CustomTabBarButton {...props} />, // Botón personalizado con degradado
         }}
       />
 
-      {/* Pestaña de Documentos */}
+      {/*Pantalla Servicios Ambulancia*/}
       <Tabs.Screen
-        name="documents"
+        name="servicios"
         options={{
-          title: 'Documents',
+          title: 'servicios',
           tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name={focused ? 'document' : 'document-outline'}
-              size={18}
-              color={color}
+            <Fontisto
+              name={focused ? 'ambulance' : 'ambulance'}
+              size={24}
+              color={color} // Color dinámico basado en el estado (activo/inactivo)
             />
           ),
         }}
       />
-
-      {/* Pestaña de Mensajes */}
+      
+      {/*Pantalla Donaciones*/}
       <Tabs.Screen
-        name="messages"
+        name="donaciones"
         options={{
-          title: 'Messages',
+          title: 'donaciones',
           tabBarIcon: ({ color, focused }) => (
-            <Icon
-              name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
-              size={18}
-              color={color}
+            <FontAwesome5
+              name={focused ? 'donate' : 'donate'}
+              size={24}
+              color={color} // Color dinámico basado en el estado (activo/inactivo)
             />
           ),
         }}
@@ -186,8 +145,8 @@ const styles = StyleSheet.create({
   gradientButton: {
     width: 60, // Tamaño del botón central
     height: 60,
-    borderRadius: 30, // Bordes redondeados
+    borderRadius: 30, // Redondear el botón central
     justifyContent: 'center',
     alignItems: 'center',
-  },
+  },
 });
