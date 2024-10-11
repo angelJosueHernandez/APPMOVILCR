@@ -8,7 +8,7 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Componente para el botón central con degradado
-function CustomTabBarButton({}) {
+function CustomTabBarButton({ children, onPress }) {
   return (
     <TouchableOpacity
       style={{
@@ -17,7 +17,14 @@ function CustomTabBarButton({}) {
         alignItems: 'center',
         ...styles.shadow,
       }}
+      onPress={onPress} // Aseguramos que el botón reaccione al ser presionado
     >
+      <LinearGradient
+        colors={['#ff7e5f', '#feb47b']} // Degradado para el botón Home
+        style={styles.gradientButton}
+      >
+        {children} 
+      </LinearGradient>
     </TouchableOpacity>
   );
 }
@@ -25,6 +32,7 @@ function CustomTabBarButton({}) {
 export default function TabLayout() {
   const activeTintColor = '#ff7e5f';
   const inactiveTintColor = '#c0c0c0';
+
   return (
     <Tabs
       screenOptions={{
@@ -44,7 +52,7 @@ export default function TabLayout() {
         tabBarShowLabel: false, // Ocultar etiquetas
       }}
     >
-      {/*Pantalla Principal*/}
+      {/*Pantalla Perfil*/}
       <Tabs.Screen
         name="login"
         options={{
@@ -86,7 +94,15 @@ export default function TabLayout() {
               color={focused ? '#fff' : activeTintColor} // Color dinámico basado en el estado
             />
           ),
-          tabBarButton: (props) => <CustomTabBarButton {...props} />, // Botón personalizado con degradado
+          tabBarButton: (props) => (
+            <CustomTabBarButton {...props}>
+              <Icon
+                name="home"
+                size={30}
+                color="#fff" // Color del ícono dentro del botón central
+              />
+            </CustomTabBarButton>
+          ), // Botón personalizado con degradado y el ícono de Home
         }}
       />
 
@@ -97,7 +113,7 @@ export default function TabLayout() {
           title: 'servicios',
           tabBarIcon: ({ color, focused }) => (
             <Fontisto
-              name={focused ? 'ambulance' : 'ambulance'}
+              name="ambulance"
               size={24}
               color={color} // Color dinámico basado en el estado (activo/inactivo)
             />
@@ -112,7 +128,7 @@ export default function TabLayout() {
           title: 'donaciones',
           tabBarIcon: ({ color, focused }) => (
             <FontAwesome5
-              name={focused ? 'donate' : 'donate'}
+              name="donate"
               size={24}
               color={color} // Color dinámico basado en el estado (activo/inactivo)
             />
