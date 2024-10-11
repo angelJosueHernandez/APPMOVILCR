@@ -8,7 +8,7 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Componente para el botón central con degradado
-function CustomTabBarButton({ onPress, children }) {
+function CustomTabBarButton({}) {
   return (
     <TouchableOpacity
       style={{
@@ -17,14 +17,7 @@ function CustomTabBarButton({ onPress, children }) {
         alignItems: 'center',
         ...styles.shadow,
       }}
-      onPress={onPress}
     >
-      <LinearGradient
-        colors={['#ff7e5f', '#feb47b']} // Degradado del botón central
-        style={styles.gradientButton}
-      >
-        {children}
-      </LinearGradient>
     </TouchableOpacity>
   );
 }
