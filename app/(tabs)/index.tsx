@@ -10,7 +10,6 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <ScrollView style={{ marginBottom: 50 }}>
-        {/* Encabezado con curva y degradado */}
         <LinearGradient
           colors={['#E5415C', '#E05C73']}
           style={styles.header}
