@@ -2,8 +2,13 @@ import React from 'react';
 import { StyleSheet, Image } from 'react-native';
 import { NativeBaseProvider, Center, Box, Heading, VStack, FormControl, Input, Link, Button, HStack, Text, IconButton, Icon } from 'native-base';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router'; // Importa el hook para navegación
+
+
 
 export default function LoginScreen() {
+  const router = useRouter(); // Hook de navegación
+
   return (
     <NativeBaseProvider>
       <Center w="100%" style={styles.container}>
@@ -72,7 +77,7 @@ export default function LoginScreen() {
                 p={3}    // Padding interno
                 borderRadius="10px" // Border radius agregado
               />
-              <Link _text={{ fontSize: "xs", fontWeight: "500", color: "blue.500" }} alignSelf="flex-end" mt="1">
+              <Link _text={{ fontSize: "xs", fontWeight: "500", color: "blue.500" }} alignSelf="flex-end" mt="1" onPress={() => router.push('../screens/enviarToken') } >
                 ¿Olvidaste tu contraseña?
               </Link>
             </FormControl>

@@ -81,6 +81,7 @@ export default function TabLayout() {
           ),
         }}
       />
+      
 
       {/* Botón central (Home) */}
       <Tabs.Screen
