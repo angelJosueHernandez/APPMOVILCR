@@ -47,11 +47,11 @@ export default function Recuperacion() {
                     <Input />
                 </FormControl>
                 
-                <Button mt="2" colorScheme="red">
+                <Button mt="2" colorScheme="red" onPress={() => router.push('../screens/ingresarToken') }>
                     Enviar token
                 </Button>
-                <Button mt="2" colorScheme="red">
-                    Volver al inicio
+                <Button mt="2" colorScheme="red" >
+                    Regresar
                 </Button>
                 
                 </VStack>
