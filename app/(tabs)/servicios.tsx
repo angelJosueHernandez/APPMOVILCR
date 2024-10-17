@@ -1,102 +1,225 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { Calendar, LocaleConfig, DateObject } from 'react-native-calendars';
+import Evillcons from 'react-native-vector-icons/EvilIcons';
+import AntDesing from 'react-native-vector-icons/AntDesign';
+import moment from 'moment';
+import 'moment/locale/es';  // Importa el locale español para moment.js
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// Configuración de la localización en español para el calendario
+LocaleConfig.locales['es'] = {
+  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  monthNamesShort: ['Ene.', 'Feb.', 'Mar.', 'Abr.', 'May.', 'Jun.', 'Jul.', 'Ago.', 'Sep.', 'Oct.', 'Nov.', 'Dic.'],
+  dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  dayNamesShort: ['Dom.', 'Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.'],
+  today: 'Hoy',
+};
+LocaleConfig.defaultLocale = 'es';
 
-export default function TabTwoScreen() {
+// Definición de tipos para el estado de los campos
+interface FormState {
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  correo: string;
+}
+
+export default function RegistroCitas() {
+  // Configurar moment en español
+  moment.locale('es');
+
+  const [formState, setFormState] = useState<FormState>({
+    nombre: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    correo: '',
+  });
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false); // Estado para controlar la visibilidad del modal
+  const [modalMessage, setModalMessage] = useState<string>(''); // Estado para el mensaje del modal
+
+  const handleNombreChange = (text: string) => {
+    setFormState({ ...formState, nombre: text });
+  };
+
+  const handleApellidoPaternoChange = (text: string) => {
+    setFormState({ ...formState, apellidoPaterno: text });
+  };
+
+  const handleApellidoMaternoChange = (text: string) => {
+    setFormState({ ...formState, apellidoMaterno: text });
+  };
+
+  const validarCampos = (): boolean => {
+    if (!formState.nombre || !formState.apellidoPaterno || !formState.apellidoMaterno || !formState.correo) {
+      setModalMessage('Todos los campos son obligatorios');
+      setModalVisible(true);
+      return false;
+    }
+    return true;
+  };
+
+  const registrarCita = () => {
+    if (validarCampos()) {
+      setModalMessage('Cita registrada con éxito');
+      setModalVisible(true);
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Servicios</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Contratación de Ambulancias</Text>
+
+      <Text style={styles.note}>
+        Nota: Si no sabe cómo llenar un campo, coloque el cursor sobre el símbolo de interrogación para obtener más información.
+      </Text>
+      <Text style={styles.instruction}>
+        Para la contratación de eventos, en "Inicio Traslado" coloque el lugar del evento y en "Escala" y "Destino Traslado" coloque "No Aplica".
+      </Text>
+
+      <Text style={styles.sectionTitle}>Información de la Contratación</Text>
+
+      {/* Inputs de texto */}
+      <TextInput
+        style={styles.input}
+        placeholder="Nombre"
+        value={formState.nombre}
+        onChangeText={handleNombreChange}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Apellido Paterno"
+        value={formState.apellidoPaterno}
+        onChangeText={handleApellidoPaternoChange}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Apellido Materno"
+        value={formState.apellidoMaterno}
+        onChangeText={handleApellidoMaternoChange}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Tipo de Contratación"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Motivo"
+      />
+
+      {/* Botón de registrar cita */}
+      <TouchableOpacity
+        style={styles.registerButton}
+        onPress={registrarCita}
+      >
+        <Text style={styles.registerButtonText}>Continuar con el Registro</Text>
+      </TouchableOpacity>
+
+      {/* Modal para mostrar los mensajes de error */}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>{modalMessage}</Text>
+            <Pressable
+              style={styles.modalButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 40, // Aumentamos el padding superior
+    backgroundColor: '#fff',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'red',
+    marginBottom: 30, // Más espacio debajo del título
+  },
+  note: {
+    color: 'black',
+    fontSize: 14,
+    marginBottom: 15, // Más espacio debajo de la nota
+  },
+  instruction: {
+    color: 'black',
+    fontSize: 14,
+    marginBottom: 30, // Más espacio debajo de la instrucción
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'black',
+  },
+  input: {
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 10,
+    marginBottom: 15, // Más espacio entre inputs
+    fontSize: 16,
+  },
+  registerButton: {
+    backgroundColor: 'red',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 30, // Más espacio encima del botón
+  },
+  registerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 20,
+    color: '#333',
+    textAlign: 'center',
+  },
+  modalButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: 'red',
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
