@@ -93,7 +93,7 @@ export default function LoginScreen() {
               <Text fontSize="sm" color="coolGray.600">
                 ¿No tienes una cuenta?{" "}
               </Text>
-              <Link _text={{ color: "blue.500", fontWeight: "medium", fontSize: "sm" }}>
+              <Link _text={{ color: "blue.500", fontWeight: "medium", fontSize: "sm" }} onPress={() => router.push('../screens/registro') }>
                 Registrate
               </Link>
             </HStack>
