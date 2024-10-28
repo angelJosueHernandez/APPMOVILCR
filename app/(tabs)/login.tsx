@@ -4,8 +4,6 @@ import { NativeBaseProvider, Center, Box, Heading, VStack, FormControl, Input, L
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router'; // Importa el hook para navegación
 
-
-
 export default function LoginScreen() {
   const router = useRouter(); // Hook de navegación
 
@@ -15,6 +13,7 @@ export default function LoginScreen() {
 
         {/* Encabezado con fondo rojo y texto */}
         <Box style={styles.header}>
+          {/* Título del encabezado */}
           <Heading size="lg" fontWeight="600" color="white">
             Iniciar Sesión
           </Heading>
@@ -89,7 +88,6 @@ export default function LoginScreen() {
 
             {/* Enlace para registrarse */}
             <HStack mt="6" justifyContent="center">
-                
               <Text fontSize="sm" color="coolGray.600">
                 ¿No tienes una cuenta?{" "}
               </Text>
@@ -108,84 +106,85 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFF',
     flex: 1,
-    marginTop: -100, // Ajuste del encabezado
+    marginTop: -100, // Ajuste del encabezado para mover todo el contenedor hacia arriba
   },
   header: {
     backgroundColor: '#FF4C4C',
     width: '100%',
-    height: 130, // Altura del encabezado
+    height: 100, // Altura del encabezado
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomLeftRadius: 45,
     borderBottomRightRadius: 45,
-    paddingTop: 35,
+    paddingTop: 35, // Espacio dentro del header
   },
   subtitle: {
-    marginTop: 15,
-    fontSize: 16,
+    marginTop: 15, // Espacio entre el header y el subtítulo
+    fontSize: 16, // Tamaño de fuente del subtítulo
     color: 'gray',
     textAlign: 'center',
   },
   personImage: {
-    width: 200,
-    height: 200,
-    alignSelf: 'center',
-    marginTop: 20,
+    width: 200, // Ancho de la imagen
+    height: 200, // Alto de la imagen
+    alignSelf: 'center', // Alineación en el centro
+    marginTop: 20, // Espacio arriba de la imagen
   },
+  // Círculos decorativos
   circle1: {
-    width:50,
-    height: 50,
-    borderRadius: 25,
+    width: 50, // Tamaño del círculo
+    height: 50, // Tamaño del círculo
+    borderRadius: 25, // Radio para hacer un círculo
     backgroundColor: 'red',
     position: 'absolute',
-    top: 1,
-    left: -20,
+    top: 1, // Posición del círculo
+    left: -20, // Posición del círculo
   },
   circle2: {
-    width: 35,
-    height: 35,
-    borderRadius: 16,
+    width: 35, // Tamaño del círculo
+    height: 35, // Tamaño del círculo
+    borderRadius: 16, // Radio para hacer un círculo
     backgroundColor: 'red',
     position: 'absolute',
-    top: 30,
-    right: 15,
+    top: 30, // Posición del círculo
+    right: 15, // Posición del círculo
   },
   circle3: {
-    width: 17,
-    height: 17,
-    borderRadius: 12.5,
+    width: 17, // Tamaño del círculo
+    height: 17, // Tamaño del círculo
+    borderRadius: 12.5, // Radio para hacer un círculo
     backgroundColor: 'red',
     position: 'absolute',
-    top: 100,
-    right: 220,
+    top: 100, // Posición del círculo
+    right: 220, // Posición del círculo
   },
   circle4: {
-    width: 50, // Asegúrate de que el tamaño sea adecuado para cubrir la imagen
-    height: 50, // Mantener el mismo tamaño para hacer un círculo perfecto
-    borderRadius: 25, // Radio para hacer el círculo
+    width: 50, // Tamaño del círculo
+    height: 50, // Tamaño del círculo
+    borderRadius: 25, // Radio para hacer un círculo
     backgroundColor: 'red',
     position: 'absolute',
-    top: 165, // Ajusta la posición para que esté detrás de la imagen
-    right: 140,
-    zIndex: -1, // Envía el círculo al fondo para que la imagen quede encima
+    top: 165, // Posición del círculo
+    right: 140, // Posición del círculo
+    zIndex: -1, // Círculo detrás de la imagen
   },  
   circle5: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 30, // Tamaño del círculo
+    height: 30, // Tamaño del círculo
+    borderRadius: 15, // Radio para hacer un círculo
     backgroundColor: 'red',
     position: 'absolute',
-    top: 160,
-    right: 15,
-    zIndex: -1, 
+    top: 160, // Posición del círculo
+    right: 15, // Posición del círculo
+    zIndex: -1, // Círculo detrás de la imagen
   },
   circle6: {
-    width: 17,
-    height: 17,
-    borderRadius: 12.5,
+    width: 17, // Tamaño del círculo
+    height: 17, // Tamaño del círculo
+    borderRadius: 12.5, // Radio para hacer un círculo
     backgroundColor: 'red',
     position: 'absolute',
-    top: 100,
-    right: 1,
+    top: 100, // Posición del círculo
+    right: 1, // Posición del círculo
   },
 });

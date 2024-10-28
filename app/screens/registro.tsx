@@ -1,299 +1,167 @@
-import { StyleSheet, Image, Platform } from 'react-native';
-import { NativeBaseProvider,Center,Box,Heading,VStack,FormControl,Input,Link,Button,HStack,Text} from 'native-base';
-import { useRouter } from 'expo-router'; // Importa el hook para navegación
-import { LinearGradient } from 'expo-linear-gradient';
-import { View } from 'react-native';
-import LottieView from 'lottie-react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { NativeBaseProvider, Center, Box, Heading, VStack, FormControl, Input, Button, HStack, Text, Switch, Icon } from 'native-base';
+import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
+export default function Registro() {
+  const router = useRouter();
 
-export default function Recuperacion() {
-    const router = useRouter(); // Hook de navegación
+  return (
+    <NativeBaseProvider>
+      <Center w="100%" style={styles.container}>
+        
+        {/* Encabezado con fondo rojo y título */}
+        <Box style={styles.header}>
+          <Heading style={styles.headerText}>Registro</Heading>
+        </Box>
+        
+        {/* Subtítulo */}
+        <Text style={styles.subtitle}>
+          Rellena los campos con sus datos reales
+        </Text>
 
-    return (
-        <NativeBaseProvider>
-            <LinearGradient
-                colors={['#E5415C', '#E05C73']}
-                style={styles.header}
-                >
-                <View style={styles.headerContent}>
-                    <Text style={styles.headerText}>CRUZ ROJA HUEJUTLA</Text>
-                </View>
-            </LinearGradient>
-        <Center w="100%">
-            <Box safeArea p="2" py="8" w="90%" maxW="290">
-                <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
-                color: "warmGray.50"
-            }}>
-                Bienvenido
-                </Heading>
-                <Heading mt="1" _dark={{
-                color: "warmGray.200"
-            }} color="coolGray.600" fontWeight="medium" size="xs">
-                Introduce tu correo para enviarte el Token!
-                </Heading>
-                <View style={styles.email}>
-                  <LottieView
-                      source={require('../../assets/animations/email.json')} // Ruta del archivo Lottie
-                      autoPlay
-                      loop
-                      style={styles.animation}
-                  />
-                </View>
-                
+        {/* Formulario de Registro */}
+        <Box safeArea p="2" py="6" w="90%" maxW="350" style={styles.formContainer}>
+          <VStack space={3}>
+            {/* Campos de entrada de datos */}
+            <HStack space={3}>
+              <FormControl w="48%">
+                <FormControl.Label><Text>Nombre</Text></FormControl.Label>
+                <Input placeholder="Nombre" style={styles.inputField} />
+              </FormControl>
+              <FormControl w="48%">
+                <FormControl.Label><Text>Apellido Paterno</Text></FormControl.Label>
+                <Input placeholder="Apellido paterno" style={styles.inputField} />
+              </FormControl>
+            </HStack>
+            <HStack space={3}>
+              <FormControl w="48%">
+                <FormControl.Label><Text>Apellido Materno</Text></FormControl.Label>
+                <Input placeholder="Apellido materno" style={styles.inputField} />
+              </FormControl>
+              <FormControl w="48%">
+                <FormControl.Label><Text>Teléfono</Text></FormControl.Label>
+                <Input placeholder="Teléfono" style={styles.inputField} />
+              </FormControl>
+            </HStack>
+            <FormControl>
+              <FormControl.Label><Text>Correo</Text></FormControl.Label>
+              <Input placeholder="Correo" style={[styles.inputField, styles.reducedWidthInput]} />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label><Text>Contraseña</Text></FormControl.Label>
+              <Input placeholder="Contraseña" secureTextEntry style={[styles.inputField, styles.reducedWidthInput]} />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label><Text>Confirmar Contraseña</Text></FormControl.Label>
+              <Input placeholder="Contraseña" secureTextEntry style={[styles.inputField, styles.reducedWidthInput]} />
+            </FormControl>
 
-                <VStack space={3} mt="5">
-                <FormControl>
-                    <FormControl.Label>Correo</FormControl.Label>
-                    <Input />
-                </FormControl>
-                
-                <Button mt="2" colorScheme="red" onPress={() => router.push('../screens/ingresarToken') }>
-                    Enviar token
-                </Button>
-                <Button mt="2" colorScheme="red" >
-                    Regresar
-                </Button>
-                
-                </VStack>
-            </Box>
-        </Center>
-        </NativeBaseProvider>
-    );
+            {/* Switch para términos y condiciones */}
+            <HStack alignItems="center" mt={1} space={0.5}>
+              <Switch size="sm" />
+              <Text style={styles.switchText}>Acepta nuestra política de privacidad</Text>
+            </HStack>
+            <HStack alignItems="center" space={0.5} mt={-1}>
+              <Switch size="sm" />
+              <Text style={styles.switchText}>Acepta nuestros términos y condiciones</Text>
+            </HStack>
+
+            {/* Botón de Registro */}
+            <Button mt="4" style={styles.registerButton}>
+              <Text style={{ color: 'white' }}>Registrarse</Text>
+            </Button>
+
+            {/* Botón de Inicio de Sesión con Google */}
+            <Button mt="2" variant="outline" style={styles.googleButton} leftIcon={<Icon as={FontAwesome} name="google" size={5} color="black" />}>
+              <Text>Iniciar sesión con Google</Text>
+            </Button>
+
+            {/* Enlace para iniciar sesión */}
+            <HStack mt="6" justifyContent="center">
+              <Text style={styles.loginText}>
+                ¿Ya tienes una cuenta?{" "}
+              </Text>
+              <Button variant="link" onPress={() => router.push('/login')} style={styles.loginLink}>
+                <Text style={{ color: 'blue' }}>Inicia Sesión</Text>
+              </Button>
+            </HStack>
+          </VStack>
+        </Box>
+      </Center>
+    </NativeBaseProvider>
+  );
 }
 
+// Estilos del componente
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      
-    },
-    email:{
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    header: {
-      height: 90,
-      width: '100%',
-      borderBottomLeftRadius: 1000,
-      borderBottomRightRadius: 1000,
-      overflow: 'hidden',
-    },
-    headerContent: {
-      position: 'absolute',
-      top: 30,
-      left: 0,
-      right: 0,
-      alignItems: 'center',
-    },
-    headerText: {
-      fontSize: 15,
-      color: '#fff',
-      textAlign: 'center',
-      top: 15,
-    },
-    animation: {
-      width: 250,
-      height: 250,
-    },
-    bellIcon: {
-      position: 'absolute',
-      right: 35,
-      top: 15,
-    },
-    centerSearchContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      marginVertical: 20,
-    },
-    searchContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#EAF0FB',
-      borderRadius: 35,
-      paddingHorizontal: 30,
-      height: 40,
-      width: 340,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-      elevation: 5,
-    },
-    searchIcon: {
-      marginRight: 10,
-    },
-    infoButton: {
-      marginTop: -10,
-      alignSelf: 'flex-start', // Alinea el botón a la izquierda
-    },
-    infoContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingVertical: 5,
-      paddingHorizontal: 10, // Ajusta el área interactiva para que esté alrededor del ícono y la palabra "Info"
-    },
-    Info: {
-      fontSize: 11,
-      color: '#E5415C',
-    },
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    popover: {
-      width: 300,
-      backgroundColor: '#fff',
-      borderRadius: 8,
-      padding: 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 5,
-      elevation: 5,
-    },
-    popoverHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 10,
-    },
-    popoverTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#333',
-    },
-    popoverText: {
-      fontSize: 14,
-      color: '#555',
-      marginBottom: 20,
-    },
-    popoverActions: {
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-    },
-    button: {
-      paddingVertical: 8,
-      paddingHorizontal: 16,
-      borderRadius: 5,
-      marginLeft: 10,
-    },
-    cancelButton: {
-      backgroundColor: '#E5415C',
-    },
-    cancelButtonText: {
-      color: '#ffff',
-      fontWeight: 'bold',
-    },
-    searchInput: {
-      flex: 1,
-      fontSize: 16,
-      color: '#000',
-    },
-    buttonContainer: {
-      padding: 20,
-    },
-    helpButton: {
-      backgroundColor: '#fff',
-      padding: 20,
-      borderRadius: 10,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-      elevation: 5,
-    },
-    helpButtonText: {
-      fontSize: 15,
-      fontWeight: 'bold',
-      color: '#E5415C',
-      marginBottom: 10,
-    },
-    helpButtonDescription: {
-      fontSize: 13,
-      color: '#555',
-      marginBottom: 10,
-      margin: 5,
-      lineHeight: 18,
-    },
-    helpActionButton: {
-      backgroundColor: '#E5415C',
-      padding: 8,
-      borderRadius: 5,
-      alignItems: 'center',
-      width: 90,
-      marginLeft: 220,
-      top: 15,
-    },
-    actionButtonText: {
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: 12,
-    },
-    carouselContainer: {
-      padding: 20,
-    },
-    carouselImage: {
-      width: '100%',
-      height: 150,
-      borderRadius: 10,
-      marginBottom: 10,
-    },
-    optionsContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      padding: 20,
-    },
-    optionCard: {
-      backgroundColor: '#fff',
-      padding: 15,
-      borderRadius: 10,
-      width: '45%',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-      elevation: 5,
-    },
-    optionTitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: '#E5415C',
-      marginBottom: 5,
-    },
-    optionDescription: {
-      fontSize: 12,
-      color: '#555',
-    },
-    floatingButton: {
-      position: 'absolute',
-      bottom: 120,
-      right: 30,
-      backgroundColor: '#E5415C',
-      width: 60,
-      height: 60,
-      borderRadius: 30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-      elevation: 5,
-      zIndex: 100,
-    },
-    floatingButtonText: {
-      color: '#fff',
-      fontSize: 24,
-      fontWeight: 'bold',
-    },
-    ambu: {
-      width: 60,
-      height: 60,
-      position: 'absolute',
-      marginLeft: 300,
-      top: -20,
-    },
-  });
+  container: {
+    backgroundColor: '#FFF',
+    flex: 1,
+  },
+  header: {
+    backgroundColor: '#FF4C4C',
+    width: '100%',
+    height: 130,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius: 45,
+    borderBottomRightRadius: 45,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+    marginTop: 90, // Baja el título dentro del encabezado
+  },
+  subtitle: {
+    marginTop: 10,
+    paddingTop: 10,
+    fontSize: 16,
+    color: 'gray',
+    textAlign: 'center',
+  },
+  formContainer: {
+    marginTop: -50,
+  },
+  inputField: {
+    borderRadius: 20,
+    height: 40, // Altura de los Input
+    fontSize: 14,
+    paddingHorizontal: 8,
+  },
+  reducedWidthInput: {
+    width: "65%", // Reduce el ancho de los campos de correo y contraseñas
+    alignSelf: 'center', // Centra el input
+  },
+  switchText: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  registerButton: {
+    backgroundColor: 'red',
+    borderRadius: 25,
+    height: 45,
+    width: "80%",
+    justifyContent: 'center',
+    alignSelf: 'center', // Centrado horizontal
+  },
+  googleButton: {
+    borderRadius: 25,
+    height: 45,
+    width: "80%",
+    justifyContent: 'center',
+    alignSelf: 'center', // Centrado horizontal
+    borderColor: 'black',
+  },
+  loginText: {
+    fontSize: 12,
+    color: 'gray',
+    marginTop: -10,
+  },
+  loginLink: {
+    fontWeight: 'medium',
+    marginTop: -20,
+  },
+});
