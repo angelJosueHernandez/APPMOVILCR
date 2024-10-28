@@ -40,7 +40,9 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="screens/enviarToken" options={{ headerShown: false }} />
           <Stack.Screen name="screens/ingresarToken" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="screens/registro" options={{ headerShown: false }} />
+          <Stack.Screen name="screens/servicios2" options={{ headerShown: false }} />
+          <Stack.Screen name="screens/donaciones2" options={{ headerShown: false }} />
         </Stack>
       )}
     </>
