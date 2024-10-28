@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
 import { Calendar, LocaleConfig, DateObject } from 'react-native-calendars';
 import Evillcons from 'react-native-vector-icons/EvilIcons';
 import AntDesing from 'react-native-vector-icons/AntDesign';
@@ -113,9 +113,11 @@ export default function RegistroCitas() {
   const hoy = moment().format('YYYY-MM-DD'); // Fecha de hoy
 
   return (
+<ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ marginBottom: 50 }}>
     <View style={styles.container}>
+    
       <Text style={styles.title}>Registro de Citas</Text>
-
+       
       {/* Inputs de texto */}
       <TextInput
         style={styles.input}
@@ -235,8 +237,10 @@ export default function RegistroCitas() {
             </Pressable>
           </View>
         </View>
+        
       </Modal>
-    </View>
+   </View>
+   </ScrollView>
   );
 }
 
