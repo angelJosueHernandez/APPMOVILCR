@@ -41,7 +41,7 @@ jobs:
         run: npm install
 
       - name: Run Tests
-        run: npm test
+        run: npm test  # Esto ejecutará las pruebas en modo CI sin --watchAll
 
       - name: Run ESLint
         run: npm run lint --if-present
