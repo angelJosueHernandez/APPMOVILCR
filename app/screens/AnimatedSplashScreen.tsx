@@ -58,7 +58,7 @@ export default function AnimatedSplashScreen({ onAnimationEnd }) {
   }, [splashOpacity, splashScale, onAnimationEnd]);
 
   return (
-    <Animated.View style={[styles.container, { opacity: splashOpacity, transform: [{ scale: splashScale }] }]}>
+    <Animated.View  testID="pantalla-de-splash"  style={[styles.container, { opacity: splashOpacity, transform: [{ scale: splashScale }] }]}>
       {/* Imagen de fondo */}
       <Image source={require('../../assets/images/fondo.jpeg')} style={styles.backgroundImage} />
 
