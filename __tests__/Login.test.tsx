@@ -33,7 +33,7 @@ describe('LoginScreen', () => {
   it('debe tener un campo de entrada para contraseña', async () => {
     const { findByPlaceholderText, debug } = renderComponent();
     debug(); // Muestra la salida del renderizado
-    const passwordInput = await findByPlaceholderText('Ingrese su contraseña');
+    const passwordInput = await findByPlaceholderText('Ingrese su contrasea');
     expect(passwordInput).toBeTruthy();
   });
 });
