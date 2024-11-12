@@ -51,9 +51,9 @@ jobs:
 
       - name: Build APK for Android
         if: github.ref == 'refs/heads/main'  # Ejecutar solo en la rama main
-        run: npx eas-cli build --platform android --profile preview --non-interactive
+        run: npx eas-cli build --platform android --profile production --non-interactive
         env:
-        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   notify_build:
     runs-on: ubuntu-latest
@@ -115,7 +115,3 @@ jobs:
               repo: context.repo.repo,
               body: "🚀 ¡El Pull Request ha sido actualizado! Revisa los últimos cambios."
             })
-
-
-
-
