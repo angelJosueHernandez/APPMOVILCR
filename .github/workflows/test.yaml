@@ -49,11 +49,11 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      # - name: Build APK for Android
-      #   if: github.ref == 'refs/heads/main'  # Ejecutar solo en la rama main
-      #   run: npx eas-cli build --platform android --profile preview --non-interactive
-      #   env:
-      #     EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+       name: Build APK for Android
+       if: github.ref == 'refs/heads/main'  # Ejecutar solo en la rama main
+       run: npx eas-cli build --platform android --profile preview --non-interactive
+       env:
+       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   notify_build:
     runs-on: ubuntu-latest
