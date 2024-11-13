@@ -51,7 +51,11 @@ jobs:
 
       - name: Build APK for Android
         if: github.ref == 'refs/heads/main'
-        run: eas build --platform android --profile production --non-interactive
+        run: |
+          # Exportar el token de Sentry para el proceso de subida de source maps
+          export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+          # Ejecutar el build
+          npx eas-cli build --platform android --profile production --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
