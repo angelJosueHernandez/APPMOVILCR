@@ -60,6 +60,13 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
+      - name: Upload source maps to Sentry
+        if: github.ref == 'refs/heads/main'
+        run: |
+          npx sentry-cli releases files "${{ github.sha }}" upload-sourcemaps ./path/to/sourcemaps --rewrite
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      
       - name: Install gdrive
         run: |
           sudo apt-get update
