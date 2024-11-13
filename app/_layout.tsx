@@ -3,10 +3,13 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import AnimatedSplashScreen from './screens/AnimatedSplashScreen'; // Importa tu Splash Screen personalizado
 
+
 // Asegúrate de que el Splash Screen nativo no se oculte automáticamente
 SplashScreen.preventAutoHideAsync(); 
 
 export default function RootLayout() {
+
+
   const [isAppReady, setIsAppReady] = useState(false); // Control de si la app está lista
   const [showCustomSplash, setShowCustomSplash] = useState(true); // Control de splash personalizado
 
