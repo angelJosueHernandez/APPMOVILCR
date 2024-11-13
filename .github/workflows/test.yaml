@@ -51,15 +51,23 @@ jobs:
 
       - name: Build APK for Android
         if: github.ref == 'refs/heads/main'  # Ejecutar solo en la rama main
-        run: npx eas-cli build --platform android --profile production --non-interactive
+        run: eas build --platform android --profile production --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install gdrive
         run: |
+          # Actualizar y verificar espacio
           sudo apt-get update
+          df -h /  # Esto mostrará el espacio libre en disco para verificar
+
+          # Instalar wget si no está ya instalado
           sudo apt-get install -y wget
-          wget -O gdrive https://github.com/prasmussen/gdrive/releases/download/2.1.1/gdrive-linux-x64  # Verificar versión actual
+
+          # Descargar gdrive con velocidad limitada y con reintentos
+          wget -O gdrive https://github.com/prasmussen/gdrive/releases/download/2.1.1/gdrive-linux-x64 --limit-rate=1m --tries=3
+
+          # Cambiar permisos y mover a /usr/local/bin
           chmod +x gdrive
           sudo install gdrive /usr/local/bin/gdrive
 
