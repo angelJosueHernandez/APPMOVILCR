@@ -67,37 +67,6 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           RELEASE: "1.0.0"
 
-      - name: Install gdrive
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          
-          # Descargar y descomprimir gdrive
-          wget -O gdrive.tar.gz https://github.com/prasmussen/gdrive/releases/download/2.1.1/gdrive_2.1.1_linux_amd64.tar.gz
-          tar -xzf gdrive.tar.gz
-          
-          # Verificar que el archivo gdrive fue extraído y moverlo a /usr/local/bin
-          if [ -f "gdrive" ]; then
-            chmod +x gdrive
-            sudo mv gdrive /usr/local/bin/gdrive
-          else
-            echo "Error: gdrive no se encontró después de la extracción" && exit 1
-          fi
-
-      - name: Authenticate with Google Drive
-        env:
-          GDRIVE_CREDENTIALS_JSON: ${{ secrets.GDRIVE_CREDENTIALS_JSON }}
-        run: |
-          echo "$GDRIVE_CREDENTIALS_JSON" > credentials.json
-          gdrive about -c credentials.json
-
-      - name: Upload APK to Google Drive
-        env:
-          GDRIVE_CREDENTIALS_JSON: ${{ secrets.GDRIVE_CREDENTIALS_JSON }}
-        run: |
-          APK_PATH=$(find ./builds/android -name "*.apk" | head -n 1)
-          gdrive upload --parent 1qyapLYsqsmbRO0RKxeECR0hnhNJSFAbG "$APK_PATH" -c credentials.json
-
   notify_build:
     runs-on: ubuntu-latest
     needs: build-and-upload
