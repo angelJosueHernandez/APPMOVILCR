@@ -62,7 +62,7 @@ jobs:
 
       - name: Upload source maps to Sentry
         run: |
-          npx sentry-cli releases files "$RELEASE" upload-sourcemaps ./path/to/sourcemaps --rewrite --org "UTHH" --project "cruz-roja"
+          npx sentry-cli releases files "$RELEASE" upload-sourcemaps ./path/to/sourcemaps --rewrite --org "uthh-ql" --project "cruz-roja"
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           RELEASE: "1.0.0"
