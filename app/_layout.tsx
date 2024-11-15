@@ -2,16 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import AnimatedSplashScreen from './screens/AnimatedSplashScreen'; // Importa tu Splash Screen personalizado
+<<<<<<< HEAD
 import { AuthProvider } from '../Context/authcontext'; // Asegúrate de que la ruta sea correcta
+=======
+import * as Sentry from '@sentry/react-native';
+import Constants from 'expo-constants';
+
+Sentry.init({
+  dsn: "https://3638ca84d74f8b1f2e4a75369e04e303@o4508289853947904.ingest.us.sentry.io/4508290003304448",
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0,
+  debug: true,
+  release: Constants.expoConfig?.version,  // Usa la versión de tu app
+});
+
+
+>>>>>>> a21e87e516a95dbfdbaa1b2bb5118036ebf5da5f
 
 // Asegúrate de que el Splash Screen nativo no se oculte automáticamente
 SplashScreen.preventAutoHideAsync(); 
 
-export default function RootLayout() {
+ function RootLayout() {
   const [isAppReady, setIsAppReady] = useState(false); // Control de si la app está lista
   const [showCustomSplash, setShowCustomSplash] = useState(true); // Control de splash personalizado
 
   useEffect(() => {
+    
+    Sentry.captureException(new Error("Prueba de error en Sentry"));
+
     const prepareApp = async () => {
       try {
         // Aquí puedes cargar recursos si lo deseas
@@ -50,3 +68,8 @@ export default function RootLayout() {
     </AuthProvider>
   );
 }
+<<<<<<< HEAD
+=======
+
+export default Sentry.wrap(RootLayout);
+>>>>>>> a21e87e516a95dbfdbaa1b2bb5118036ebf5da5f
