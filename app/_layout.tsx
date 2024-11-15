@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import AnimatedSplashScreen from './screens/AnimatedSplashScreen'; // Importa tu Splash Screen personalizado
+import { AuthProvider } from '../Context/authcontext'; // Asegúrate de que la ruta sea correcta
 
 // Asegúrate de que el Splash Screen nativo no se oculte automáticamente
 SplashScreen.preventAutoHideAsync(); 
@@ -32,7 +33,7 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <AuthProvider>
       {showCustomSplash ? (
         <AnimatedSplashScreen onAnimationEnd={() => setShowCustomSplash(false)} /> // Esconde el splash personalizado al terminar
       ) : (
@@ -43,8 +44,9 @@ export default function RootLayout() {
           <Stack.Screen name="screens/registro" options={{ headerShown: false }} />
           <Stack.Screen name="screens/servicios2" options={{ headerShown: false }} />
           <Stack.Screen name="screens/donaciones2" options={{ headerShown: false }} />
+          <Stack.Screen name="screens/doblefactor" options={{ headerShown: false }} />
         </Stack>
       )}
-    </>
+    </AuthProvider>
   );
 }

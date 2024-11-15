@@ -95,9 +95,6 @@ export default function AnimatedSplashScreen({ onAnimationEnd }) {
       <Animated.Image
         source={require('../../assets/images/cubo.png')}
         style={[styles.cube2, { transform: [{ translateY: new Animated.Value(0) }] }]}/>
-
-      {/* Texto personalizado para Cruz Roja Huejutla */}
-      <Text style={styles.cruzRojaText}>Cruz Roja Huejutla</Text>
     </Animated.View>
   );
 }
