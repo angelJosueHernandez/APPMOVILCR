@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router'; // Importa el hook para navegación
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 export default function RegistroCitas() {
   const router = useRouter(); // Hook para la navegación de expo-router
@@ -19,6 +22,12 @@ export default function RegistroCitas() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+       <LinearGradient colors={['#E5415C', '#E05C73']} style={styles.header}>
+        <View style={styles.headerContent}>
+          <Text style={styles.headerText}>CRUZ ROJA HUEJUTLA</Text>
+          <Icon name="notifications" size={20} color="#fff" style={styles.bellIcon} />
+        </View>
+      </LinearGradient>
       <Text style={styles.title}>Contratación de Ambulancias</Text>
 
       <View style={styles.rowContainer}>
@@ -89,12 +98,10 @@ export default function RegistroCitas() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingTop: 35,
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'red',
@@ -182,5 +189,30 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  header: {
+    height: 90,
+    width: '100%',
+    borderBottomLeftRadius: 1000,
+    borderBottomRightRadius: 1000,
+    marginBottom: 20,
+  },
+  headerContent: {
+    position: 'absolute',
+    top: 30,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 15,
+    color: '#fff',
+    textAlign: 'center',
+    top: 15,
+  },
+  bellIcon: {
+    position: 'absolute',
+    right: 35,
+    top: 15,
   },
 });

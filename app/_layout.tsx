@@ -5,6 +5,7 @@ import AnimatedSplashScreen from './screens/AnimatedSplashScreen'; // Importa tu
 import { AuthProvider } from '../Context/authcontext'; // Asegúrate de que la ruta sea correcta
 import * as Sentry from '@sentry/react-native';
 import Constants from 'expo-constants';
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 Sentry.init({
   dsn: "https://3638ca84d74f8b1f2e4a75369e04e303@o4508289853947904.ingest.us.sentry.io/4508290003304448",
@@ -18,6 +19,8 @@ Sentry.init({
 SplashScreen.preventAutoHideAsync(); 
 
  function RootLayout() {
+
+
   const [isAppReady, setIsAppReady] = useState(false); // Control de si la app está lista
   const [showCustomSplash, setShowCustomSplash] = useState(true); // Control de splash personalizado
 
@@ -46,6 +49,7 @@ SplashScreen.preventAutoHideAsync();
   }
 
   return (
+    <StripeProvider publishableKey='pk_test_51QJQ5uDIWznX38uOqRNbGsjduSvo12H8NQBCqVdIMS3U28yXBQyk6TW8NReNgcZMWfQWayD2i2pXtFIvYJoIUsZf00eIziHzHG'>
     <AuthProvider>
       {showCustomSplash ? (
         <AnimatedSplashScreen onAnimationEnd={() => setShowCustomSplash(false)} /> // Esconde el splash personalizado al terminar
@@ -61,6 +65,7 @@ SplashScreen.preventAutoHideAsync();
         </Stack>
       )}
     </AuthProvider>
+    </StripeProvider>
   );
 }
 

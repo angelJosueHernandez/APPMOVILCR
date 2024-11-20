@@ -187,7 +187,8 @@ export default function LoginScreen() {
                         InputLeftElement={<NBIcon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}
                         h="50px"
                         p={3}
-                        borderRadius="10px"
+                        paddingLeft={1}
+                        borderRadius="40px"
                       />
                        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
                     </FormControl>
@@ -206,7 +207,8 @@ export default function LoginScreen() {
                         }
                         h="50px"
                         p={3}
-                        borderRadius="10px"
+                        paddingLeft={5}
+                        borderRadius="40px"
                       />
                        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
 

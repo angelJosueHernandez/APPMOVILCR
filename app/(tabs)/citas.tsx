@@ -71,9 +71,11 @@ const [selectedServicio, setSelectedServicio] = useState<string>('');
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
 
   const hoy = moment().format('YYYY-MM-DD');
+
+  
   useEffect(() => {
     const fetchData = () => {
-      fetch(`https://api-beta-mocha-59.vercel.app/usuario/${correoGuardar}`)
+      fetch(`https://api-beta-mocha-59.vercel.app/usuario2/${correoGuardar}`)
         .then((response) => response.json())
         .then((data) => {
           setFormState({
