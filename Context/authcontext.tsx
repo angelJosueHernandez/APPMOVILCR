@@ -1,5 +1,3 @@
-// Context/authcontext.tsx
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
@@ -11,6 +9,7 @@ interface AuthContextProps {
   setUser: (user: string | null) => void;
   correoGuardar: string | null;
   setCorreoGuardar: (correo: string | null) => void;
+  loading: boolean; // Estado de carga agregado
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -27,9 +26,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<string | null>(null);
   const [correoGuardar, setCorreoGuardar] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); // Estado de carga inicial
 
   useEffect(() => {
     const checkAuth = async () => {
+      setLoading(true); // Inicia el estado de carga
       const token = await AsyncStorage.getItem('jwt');
       if (token) {
         try {
@@ -54,10 +55,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } else {
         console.log("No se encontró ningún token almacenado en AsyncStorage.");
+        setIsAuthenticated(false);
       }
+      setLoading(false); // Finaliza el estado de carga
     };
     checkAuth();
   }, []);
+
+  if (loading) {
+    return null; // O podrías mostrar un indicador de carga aquí.
+  }
 
   return (
     <AuthContext.Provider
@@ -68,6 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser,
         correoGuardar,
         setCorreoGuardar,
+        loading, // Pasar el estado de carga al contexto
       }}
     >
       {children}

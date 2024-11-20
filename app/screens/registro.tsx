@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView, Platform, View, Alert, TouchableOpacity } from 'react-native';
-import { NativeBaseProvider, Center, Box, VStack, FormControl, Input, Button, HStack, Text, Switch, Icon } from 'native-base';
+import { NativeBaseProvider, Center, Box, VStack, FormControl, Input, Button, HStack, Text, Switch, Icon as NBIcon } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import IconIon from 'react-native-vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+
 
 export default function Registro() {
   const router = useRouter();
@@ -116,12 +119,15 @@ export default function Registro() {
       >
         <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
           <Center w="100%" style={styles.container}>
-            <LinearGradient colors={['#E5415C', '#E05C73']} style={styles.header}>
-              <View style={styles.headerContent}>
-                <Text style={styles.headerText}>Registro</Text>
-                <IconIon name="notifications" size={20} color="#fff" style={styles.bellIcon} />
-              </View>
-            </LinearGradient>
+          <LinearGradient
+          colors={['#E5415C', '#E05C73']}
+          style={styles.header}
+        >
+          <View style={styles.headerContent}>
+            <Text style={styles.headerText}>CRUZ ROJA HUEJUTLA</Text>
+            <Icon name="notifications" size={20} color="#fff" style={styles.bellIcon} />
+          </View>
+        </LinearGradient>
             <Text style={styles.subtitle}>
               Rellena los campos con sus datos reales
             </Text>
@@ -209,7 +215,7 @@ export default function Registro() {
                 <Button mt="4" style={styles.registerButton} onPress={handleRegister}>
                   <Text style={{ color: 'white' }}>Registrarse</Text>
                 </Button>
-                <Button mt="2" variant="outline" style={styles.googleButton} leftIcon={<Icon as={FontAwesome} name="google" size={5} color="black" />}>
+                <Button mt="2" variant="outline" style={styles.googleButton} leftIcon={<NBIcon as={FontAwesome} name="google" size={5} color="black" />}>
                   <Text>Iniciar sesión con Google</Text>
                 </Button>
                 <HStack mt="4" justifyContent="center" alignItems="center">
@@ -230,12 +236,8 @@ export default function Registro() {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: '#FFF', flex: 1 },
-  scrollContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF' },
-  header: { height: 100, width: '100%', borderBottomLeftRadius: 1000, borderBottomRightRadius: 1000, overflow: 'hidden' },
-  headerContent: { position: 'absolute', top: 60, left: 0, right: 0, alignItems: 'center' },
-  headerText: { fontSize: 20, color: '#fff', textAlign: 'center' },
-  bellIcon: { position: 'absolute', right: 35, top: 50 },
+  container: { backgroundColor: '#FFF', flex: 1, marginBottom:20,},
+  scrollContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF', },
   subtitle: { marginTop: 20, paddingTop: 10, fontSize: 16, color: 'gray', textAlign: 'center' },
   formContainer: { marginTop: -50 },
   inputField: { borderRadius: 20, height: 40, fontSize: 14, paddingHorizontal: 8 },
@@ -245,4 +247,29 @@ const styles = StyleSheet.create({
   loginText: { fontSize: 12, color: 'gray' },
   loginLink: { marginTop: -3 },
   loginLinkText: { color: 'blue', fontSize: 12, fontWeight: 'bold' },
+  header: {
+    height: 90,
+    width: '100%',
+    borderBottomLeftRadius: 1000,
+    borderBottomRightRadius: 1000,
+    overflow: 'hidden',
+  },
+  headerContent: {
+    position: 'absolute',
+    top: 30,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 15,
+    color: '#fff',
+    textAlign: 'center',
+    top: 15,
+  },
+  bellIcon: {
+    position: 'absolute',
+    right: 35,
+    top: 15,
+  },
 });

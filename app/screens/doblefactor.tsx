@@ -2,39 +2,73 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Alert, TextInput } from 'react-native';
 import { NativeBaseProvider, Center, Box, Text, Button, HStack } from 'native-base';
 import { useAuth } from '../../Context/authcontext';
+import { useRouter } from 'expo-router';
+import { ActivityIndicator } from 'react-native';
+
 
 export default function DoubleFactorScreen() {
-  const [code, setCode] = useState(Array(6).fill(''));
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [isResendEnabled, setIsResendEnabled] = useState(false);
-  const inputRefs = useRef<Array<TextInput | null>>([]);
-  const { setIsAuthenticated, correoGuardar } = useAuth();
+  const router = useRouter(); 
 
+  const [isLoading, setIsLoading] = useState(false); // Estado de carga
+  
+  const length = 6; // Longitud del OTP
+  const [code, setCode] = useState(Array(length).fill(''));
+  const [timeLeft, setTimeLeft] = useState(60); // Temporizador inicial
+  const [isResendEnabled, setIsResendEnabled] = useState(false);
+  const [hasExpiredOnce, setHasExpiredOnce] = useState(false); // Verifica si el token ya expiró una vez
+  const inputRefs = useRef<TextInput[]>([]);
+  const { setIsAuthenticated, correoGuardar } = useAuth();
+  // Manejador de cambios en los inputs
   const handleInputChange = (value: string, index: number) => {
     if (isNaN(Number(value))) return;
+
     const newCode = [...code];
-    newCode[index] = value;
+    newCode[index] = value; // Actualizar el valor en el índice
     setCode(newCode);
-    if (value && index < code.length - 1) inputRefs.current[index + 1]?.focus();
+
+    // Enfocar en el siguiente input automáticamente
+    if (value && index < length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
   };
 
+  // Manejo de retroceso (Backspace)
+  const handleKeyDown = (e: any, index: number) => {
+    if (e.nativeEvent.key === 'Backspace' && !code[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus(); // Enfocar el input anterior
+    }
+  };
+
+  // Temporizador y lógica de expiración del token
   useEffect(() => {
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
-    } else {
+    } else if (timeLeft === 0 && !hasExpiredOnce) {
       setIsResendEnabled(true);
-    }
-  }, [timeLeft]);
+      setHasExpiredOnce(true);
 
+      // Expirar el token llamando a la API
+      fetch('https://api-beta-mocha-59.vercel.app/actualizarToken', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo: correoGuardar }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Token expirado y actualizado:', data);
+        })
+        .catch((error) => {
+          console.error('Error al expirar el token:', error);
+        });
+    }
+  }, [timeLeft, hasExpiredOnce]);
+
+  // Reenvío del token
   const handleResend = async () => {
-    if (!correoGuardar) {
-      Alert.alert("Error", "Correo no disponible para el envío de verificación");
-      return;
-    }
-
     setIsResendEnabled(false);
     setTimeLeft(60); // Reinicia el temporizador
+    setHasExpiredOnce(false); // Permitir la expiración nuevamente
 
     try {
       const response = await fetch(
@@ -42,6 +76,7 @@ export default function DoubleFactorScreen() {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ correo: correoGuardar }),
         }
       );
 
@@ -57,41 +92,65 @@ export default function DoubleFactorScreen() {
     }
   };
 
+  // Verificar token
   const handleVerify = async () => {
-    if (!correoGuardar) {
-      Alert.alert("Error", "Correo no disponible para la verificación");
-      return;
-    }
 
+    setIsLoading(true);
     const tokenUsuario = code.join('');
-    if (tokenUsuario.length !== 6) {
+    console.log(tokenUsuario);
+    console.log(correoGuardar);
+  
+    if (tokenUsuario.length !== length) {
       Alert.alert('Error', 'Por favor, ingresa el código completo.');
+      setIsLoading(false);
       return;
     }
-    
-
+  
+    const requestBody = {
+      correo: correoGuardar,
+      tokenUsuario: tokenUsuario,
+    };
+  
+    console.log('Request body:', requestBody); // Asegúrate de que sea un objeto plano
+  
     try {
       const response = await fetch(
         `https://api-beta-mocha-59.vercel.app/verificacionTokenIdentificacion/${encodeURIComponent(correoGuardar)}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tokenUsuario }),
+          body: JSON.stringify(requestBody),
         }
       );
-
-      const data = await response.json();
+  
+      const data = await response.json(); // Verifica si la respuesta se puede serializar
+      console.log('Response data:', data); // Esto ayudará a depurar
+  
       if (data.mensaje === 'El token de verificación es válido') {
-        setIsAuthenticated(true); // Marca al usuario como autenticado
-        Alert.alert('Éxito', 'Verificación exitosa');
+       
+        setIsAuthenticated(true); // Usuario autenticado
+          // Mostrar la alerta después de 3 segundos y luego navegar
+          setTimeout(() => {
+              Alert.alert('Éxito', 'Verificación exitosa', [
+                  { 
+                      text: "OK", onPress: () => router.replace('/(tabs)') // Navega cuando el usuario toca 'OK'
+                  }
+              ]);
+              setIsLoading(false);
+          }, 3000); // Espera 3 segundos antes de ejecutar
+
+    
       } else {
         Alert.alert('Error', data.mensaje || 'Error al verificar el token.');
+        setIsLoading(false);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error al verificar el token:', error);
       Alert.alert('Error', 'Hubo un problema con la verificación.');
     }
   };
+  
 
   return (
     <NativeBaseProvider>
@@ -99,7 +158,7 @@ export default function DoubleFactorScreen() {
         <Box style={styles.container}>
           <Text style={styles.headerText}>Verificación Doble Factor</Text>
           <Text style={styles.description}>
-            Favor de introducir el Token que fue enviado a tu correo. En caso de que no le haya llegado, revisa tu carpeta de spam.
+            Ingresa el código enviado a tu correo. Si no lo recibiste, revisa tu carpeta de spam.
           </Text>
           <HStack space={2} justifyContent="center" style={styles.codeContainer}>
             {code.map((digit, index) => (
@@ -110,6 +169,7 @@ export default function DoubleFactorScreen() {
                 keyboardType="numeric"
                 maxLength={1}
                 onChangeText={(value) => handleInputChange(value, index)}
+                onKeyPress={(e) => handleKeyDown(e, index)}
                 value={digit}
               />
             ))}
@@ -122,7 +182,11 @@ export default function DoubleFactorScreen() {
             )}
           </Text>
           <Button style={styles.verifyButton} onPress={handleVerify}>
-            <Text style={styles.verifyButtonText}>VERIFICAR</Text>
+          {isLoading ? (
+                        <ActivityIndicator color="white" /> // Mostrar DotLoading
+                      ) : (
+                        <Text color="white" fontWeight="bold">Verificar</Text>
+                      )}
           </Button>
         </Box>
       </Center>

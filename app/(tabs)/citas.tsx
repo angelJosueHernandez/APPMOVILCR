@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, Pressable, ScrollView } from 'react-native';
-import { Calendar, LocaleConfig, DateObject } from 'react-native-calendars';
-import Evillcons from 'react-native-vector-icons/EvilIcons';
-import AntDesing from 'react-native-vector-icons/AntDesign';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Modal,
+  Alert,
+} from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
-import 'moment/locale/es';  // Importa el locale español para moment.js
+import 'moment/locale/es';
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useAuth } from '@/Context/authcontext';
+import { useRouter } from 'expo-router';
+import { err } from 'react-native-svg';
+import { ActivityIndicator } from 'react-native';
 
-// Configuración de la localización en español para el calendario
+
+
 LocaleConfig.locales['es'] = {
-  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  monthNames: [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+  ],
   monthNamesShort: ['Ene.', 'Feb.', 'Mar.', 'Abr.', 'May.', 'Jun.', 'Jul.', 'Ago.', 'Sep.', 'Oct.', 'Nov.', 'Dic.'],
   dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
   dayNamesShort: ['Dom.', 'Lun.', 'Mar.', 'Mié.', 'Jue.', 'Vie.', 'Sáb.'],
@@ -16,326 +34,420 @@ LocaleConfig.locales['es'] = {
 };
 LocaleConfig.defaultLocale = 'es';
 
-// Definición de tipos para el estado de los campos
-interface FormState {
-  nombre: string;
-  apellidoPaterno: string;
-  apellidoMaterno: string;
-  correo: string;
-}
-
 export default function RegistroCitas() {
-  // Configurar moment en español
-  moment.locale('es');
 
-  const [formState, setFormState] = useState<FormState>({
+
+  const [isLoading, setIsLoading] = useState(false); // Estado de carga
+
+  const router = useRouter();
+  const { correoGuardar, isAuthenticated } = useAuth();
+
+  const [formState, setFormState] = useState({
     nombre: '',
     apellidoPaterno: '',
     apellidoMaterno: '',
     correo: '',
   });
 
-  const [modalVisible, setModalVisible] = useState<boolean>(false); // Estado para controlar la visibilidad del modal
-  const [modalMessage, setModalMessage] = useState<string>(''); // Estado para el mensaje del modal
-  const [currentDate, setCurrentDate] = useState<moment.Moment>(moment()); // Estado para manejar el mes actual
-  const [selectedDate, setSelectedDate] = useState<string>(moment().format('YYYY-MM-DD')); // Fecha seleccionada
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [availableHorarios, setAvailableHorarios] = useState([]);
+  const [selectedHorario, setSelectedHorario] = useState<string | null>(null);
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
 
-  const [nombreError, setNombreError] = useState<string>('');
-  const [apellidoPaternoError, setApellidoPaternoError] = useState<string>('');
-  const [apellidoMaternoError, setApellidoMaternoError] = useState<string>('');
+  const [servicios, setServicios] = useState([]);
+const [selectedServicio, setSelectedServicio] = useState<string>('');
 
-  const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+  const [indicacionesPrevias, setIndicacionesPrevias] = useState<string>('');
 
-  const handleNombreChange = (text: string) => {
-    if (!regexLetras.test(text) && text !== '') {
-      setNombreError('El nombre solo puede contener letras');
-    } else {
-      setNombreError('');
+  const [errors, setErrors] = useState({
+    fecha: '',
+    horario: '',
+    servicio: '',
+  });
+
+  // Estados para feedback
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [feedbackRating, setFeedbackRating] = useState(0);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+
+  const hoy = moment().format('YYYY-MM-DD');
+  useEffect(() => {
+    const fetchData = () => {
+      fetch(`https://api-beta-mocha-59.vercel.app/usuario/${correoGuardar}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setFormState({
+            nombre: data.nombre,
+            apellidoPaterno: data.apellidoP,
+            apellidoMaterno: data.apellidoM,
+            correo: correoGuardar,
+          });
+        })
+        .catch((error) => console.error('Error fetching user data:', error));
+    };
+  
+    // Llama a la función inmediatamente
+    fetchData();
+  
+    // Configura el intervalo
+    const intervalId = setInterval(fetchData, 2000);
+  
+    // Limpia el intervalo al desmontar
+    return () => clearInterval(intervalId);
+  }, [correoGuardar]);
+  
+
+  useEffect(() => {
+    // Fetch available services
+    const fetchServicios = async () => {
+      try {
+        const response = await fetch('https://api-beta-mocha-59.vercel.app/servicios-excluidos');
+        if (!response.ok) throw new Error('Error al obtener los datos');
+        const data = await response.json();
+        setServicios(data);
+        setSelectedServicio(data[0]?.tipo_Servicio || '');
+        setIndicacionesPrevias(data[0]?.indicaciones_previas || '');
+      } catch (error) {
+        console.error('Error fetching services data:', error);
+      }
+    };
+    fetchServicios();
+  }, []);
+
+  useEffect(() => {
+    // Fetch available hours when date is selected
+    if (selectedDate) {
+      const fetchAvailableHorarios = async () => {
+        try {
+          const response = await fetch(
+            `https://api-beta-mocha-59.vercel.app/horas-disponibles/${selectedDate}`
+          );
+          if (!response.ok) throw new Error('Error al obtener los horarios disponibles');
+          const data = await response.json();
+          setAvailableHorarios(data);
+          setSelectedHorario(null);
+          setIsFormDisabled(data.length === 0);
+        } catch (error) {
+         // console.error('Error fetching available hours:', error);
+          setIsFormDisabled(true);
+        }
+      };
+      fetchAvailableHorarios();
     }
-    setFormState({ ...formState, nombre: text });
-  };
+  }, [selectedDate]);
 
-  const handleApellidoPaternoChange = (text: string) => {
-    if (!regexLetras.test(text) && text !== '') {
-      setApellidoPaternoError('El apellido solo puede contener letras');
-    } else {
-      setApellidoPaternoError('');
-    }
-    setFormState({ ...formState, apellidoPaterno: text });
-  };
+  useEffect(() => {
+    // Update available hours every 15 seconds
+    const fetchAvailableHorarios = async () => {
+      try {
+        const response = await fetch(
+          `https://api-beta-mocha-59.vercel.app/horas-disponibles/${selectedDate}`
+        );
+        if (!response.ok) throw new Error('Error al obtener los horarios disponibles');
+        const data = await response.json();
+        setAvailableHorarios(data);
+        setSelectedHorario(null);
+        setIsFormDisabled(data.length === 0);
+      } catch (error) {
+        //console.error('Error fetching available hours:', error);
+        setIsFormDisabled(true);
+      }
+    };
+    fetchAvailableHorarios();
+    const intervalId = setInterval(fetchAvailableHorarios, 15000);
+    return () => clearInterval(intervalId);
+  }, [selectedDate]);
 
-  const handleApellidoMaternoChange = (text: string) => {
-    if (!regexLetras.test(text) && text !== '') {
-      setApellidoMaternoError('El apellido solo puede contener letras');
-    } else {
-      setApellidoMaternoError('');
-    }
-    setFormState({ ...formState, apellidoMaterno: text });
-  };
 
   const validarCampos = (): boolean => {
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const newErrors = {
+      fecha: '',
+      horario: '',
+      servicio: '',
+    };
+    let isValid = true;
+  console.log(newErrors.servicio)
+    if (!selectedDate) {
+      newErrors.fecha = 'Seleccione una fecha.';
+      setIsLoading(false);
+      isValid = false;
+    }
 
-    if (!formState.nombre || !formState.apellidoPaterno || !formState.apellidoMaterno || !formState.correo) {
-      setModalMessage('Todos los campos son obligatorios');
-      setModalVisible(true);
-      return false;
+    if (!selectedHorario) {
+      newErrors.horario = 'Seleccione un horario.';
+      setIsLoading(false);
+      isValid = false;
     }
-    if (!regexCorreo.test(formState.correo)) {
-      setModalMessage('El correo no es válido');
-      setModalVisible(true);
-      return false;
+
+
+
+    if (!selectedServicio || selectedServicio === null) {
+      newErrors.servicio = 'Seleccione un servicio.';
+      setIsLoading(false);
+      isValid = false;
     }
-    return true;
+    
+    setErrors(newErrors);
+    return isValid;
   };
 
-  const registrarCita = () => {
+  const registrarCita = async () => {
+
+   
+
+    if (!isAuthenticated) {
+      Alert.alert('Warning', 'Para solicitar este servicio inicie sesión en su cuenta');
+      router.push('/login');
+      return;
+    }
+
+    setIsLoading(true);
+
     if (validarCampos()) {
-      setModalMessage('Cita registrada con éxito');
-      setModalVisible(true);
+      const citaData = {
+        nombre: formState.nombre,
+        apellido_Paterno: formState.apellidoPaterno,
+        apellido_Materno: formState.apellidoMaterno,
+        fecha: selectedDate,
+        horario: selectedHorario,
+        ID_Servicio: selectedServicio,
+        correo: formState.correo,
+      };
+
+      try {
+        const response = await fetch('https://api-beta-mocha-59.vercel.app/crearCita', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(citaData),
+        });
+
+        if (response.ok) {
+          setTimeout(() => {
+            Alert.alert('Éxito', 'Cita registrada exitosamente');
+            setIsLoading(false);
+            setSelectedServicio('');
+            setSelectedDate('');
+            setSelectedHorario('');
+
+        }, 3000); // Espera 3 segundos antes de ejecutar
+        setTimeout(() => {
+          showFeedbackModal(); // Mostrar el modal de feedback
+          
+      }, 6000); // Espera 3 segundos antes de ejecutar
+        
+        } else {
+          const errorData = await response.json();
+          setIsLoading(false);
+          console.log(errorData);
+          Alert.alert('Error', `Error: ${errorData.msg}`);
+        }
+      } catch (error) {
+        console.error('Error al registrar la cita:', error);
+        setIsLoading(false);
+        Alert.alert('Error', 'Error al registrar la cita. Inténtelo más tarde.');
+      }
     }
   };
 
-  // Verifica si todos los campos están completos
-  const todosCamposLlenos: boolean = !!(formState.nombre && formState.apellidoPaterno && formState.apellidoMaterno && formState.correo);
-
-  // Función para cambiar el mes cuando el usuario navega por el calendario
-  const handleMonthChange = (month: DateObject) => {
-    const newDate = moment(`${month.year}-${month.month}`, 'YYYY-MM');
-    setCurrentDate(newDate);
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
   };
 
-  // Función para poner la primera letra en mayúscula
-  const capitalizeFirstLetter = (string: string): string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+  const handleFeedbackSubmit = async () => {
+    setIsSubmittingFeedback(true);
+    try {
+      const feedbackData = {
+        correo: formState.correo,
+        rating: feedbackRating,
+      };
 
-  const hoy = moment().format('YYYY-MM-DD'); // Fecha de hoy
+      const response = await fetch('https://api-beta-mocha-59.vercel.app/registrarFeedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedbackData),
+      });
+
+      if (response.ok) {
+        Alert.alert('Gracias', '¡Gracias por tu calificación!');
+        setIsFeedbackModalVisible(false);
+        setFeedbackRating(0);
+      } else {
+        const errorData = await response.json();
+        Alert.alert('Error', `Error: ${errorData.mensaje}`);
+      }
+    } catch (error) {
+      console.error('Error al enviar el feedback:', error);
+      Alert.alert('Error', 'Error al enviar el feedback. Inténtalo más tarde.');
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  };
 
   return (
-<ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ marginBottom: 50 }}>
-    <View style={styles.container}>
-    
-      <Text style={styles.title}>Registro de Citas</Text>
-       
-      {/* Inputs de texto */}
-      <TextInput
-        style={styles.input}
-        placeholder="Nombre"
-        value={formState.nombre}
-        onChangeText={handleNombreChange}
-        autoCapitalize="words"
-      />
-      {nombreError ? <Text style={styles.errorText}>{nombreError}</Text> : null}
+    <>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: '#fff', marginBottom: 100 }}>
+        <LinearGradient colors={['#E5415C', '#E05C73']} style={styles.header}>
+          <View style={styles.headerContent}>
+            <Text style={styles.headerText}>CRUZ ROJA HUEJUTLA</Text>
+            <Icon name="notifications" size={20} color="#fff" style={styles.bellIcon} />
+          </View>
+        </LinearGradient>
+        <View style={styles.container}>
+          <Text style={styles.title}>CITAS</Text>
+          <Text style={styles.subtitle}>Para solicitar una cita Inicie Sesion en su Cuenta</Text>
+          <View style={styles.row}>
+            <View style={styles.column}>
+              <Text style={styles.label}>Nombre</Text>
+              <TextInput style={styles.input} value={formState.nombre} editable={false} />
+            </View>
+            <View style={styles.column}>
+              <Text style={styles.label}>Apellido Paterno</Text>
+              <TextInput style={styles.input} value={formState.apellidoPaterno} editable={false} />
+            </View>
+          </View>
+          <Text style={styles.label}>Apellido Materno</Text>
+          <TextInput style={styles.input} value={formState.apellidoMaterno} editable={false} />
+          <Text style={styles.label}>Correo</Text>
+          <TextInput style={styles.input} value={formState.correo} editable={false} />
+          <Text style={styles.label}>Seleccione una Fecha</Text>
+          <Calendar
+            style={styles.calendar}
+            onDayPress={(day) => {
+              const date = moment(day.dateString);
+              if (date.isBefore(moment()) || date.isoWeekday() >= 6) {
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  fecha: 'Seleccione una fecha válida.',
+                }));
+                setSelectedDate('');
+              } else {
+                setSelectedDate(day.dateString);
+                setErrors((prevErrors) => ({ ...prevErrors, fecha: '' }));
+              }
+            }}
+            markedDates={{
+              [selectedDate]: { selected: true, selectedColor: 'red' },
+            }}
+          />
+          {errors.fecha ? <Text style={styles.errorText2}>{errors.fecha}</Text> : null}
+          <Text style={styles.label}>Horarios disponibles</Text>
+          <Picker
+          style={{backgroundColor:'#fef6f5',}}
+            selectedValue={selectedHorario}
+            onValueChange={(value) => setSelectedHorario(value)}
+            enabled={!isFormDisabled}
+          >
+            <Picker.Item label="Seleccione un horario" value="" />
+            {availableHorarios.map((horario, index) => (
+              <Picker.Item key={index} label={horario.time} value={horario.time} />
+            ))}
+          </Picker>
+          {errors.horario ? <Text style={styles.errorText}>{errors.horario}</Text> : null}
+          <Text style={styles.label}>Servicios</Text>
+          <Picker
+            selectedValue={selectedServicio}
+            style={{backgroundColor:'#fef6f5',}}
+            onValueChange={(value) => {
+              setSelectedServicio(value);
+              const servicioSeleccionado = servicios.find(
+                (servicio) => servicio.ID_Servicio === value
+              );
+              setIndicacionesPrevias(servicioSeleccionado?.indicaciones_previas || '');
+            }}
+          >
+             <Picker.Item label="Seleccione un servicio" value='' />
+            {servicios.map((servicio) => (
+              <Picker.Item key={servicio.ID_Servicio} label={servicio.tipo_Servicio} value={servicio.ID_Servicio} />
+            ))}
+          </Picker>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Apellido Paterno"
-        value={formState.apellidoPaterno}
-        onChangeText={handleApellidoPaternoChange}
-        autoCapitalize="words"
-      />
-      {apellidoPaternoError ? <Text style={styles.errorText}>{apellidoPaternoError}</Text> : null}
+          {errors.servicio ? <Text style={styles.errorText}>{errors.servicio}</Text> : null}
 
-      <TextInput
-        style={styles.input}
-        placeholder="Apellido Materno"
-        value={formState.apellidoMaterno}
-        onChangeText={handleApellidoMaternoChange}
-        autoCapitalize="words"
-      />
-      {apellidoMaternoError ? <Text style={styles.errorText}>{apellidoMaternoError}</Text> : null}
+          <Text style={styles.label2}>Indicaciones Previas</Text>
+          <TextInput
+            style={styles.textArea}
+            value={indicacionesPrevias}
+            editable={false}
+            multiline={true}
+            numberOfLines={4}
+          />
+          <TouchableOpacity style={styles.registrarButton} onPress={registrarCita}>
+          {isLoading ? (
+                        <ActivityIndicator color="white" /> // Mostrar DotLoading
+                      ) : (
+                        <Text style={styles.registrarButtonText}>Registrar Cita</Text>
+                      )}
+            
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Correo"
-        value={formState.correo}
-        onChangeText={(text: string) => setFormState({ ...formState, correo: text })}
-        keyboardType="email-address"
-      />
-
-      {/* Calendario */}
-      <Calendar
-        style={styles.calendar}
-        markedDates={{
-          [hoy]: { selected: true, marked: true, selectedColor: 'red', textColor: 'white' }, // Marca la fecha de hoy con un círculo rojo y texto en blanco
-        }}
-        theme={{
-          selectedDayBackgroundColor: 'red',
-          todayTextColor: 'red',
-          textDayFontWeight: 'bold', // Estilo para días activos
-          arrowColor: 'red',
-          textDisabledColor: 'gray',
-        }}
-        monthFormat={'MMMM yyyy'} // Formato del mes en español
-        onMonthChange={handleMonthChange} // Evento para detectar cambio de mes
-        // Renderizar el encabezado del calendario con el mes en español (primera letra mayúscula)
-        renderHeader={() => (
-          <Text style={styles.monthHeader}>
-            {capitalizeFirstLetter(currentDate.format('MMMM yyyy'))}
-          </Text>
-        )}
-        // Deshabilitar sábados y domingos
-        dayComponent={({ date, state }) => {
-          const isWeekend = moment(date.dateString).isoWeekday() === 6 || moment(date.dateString).isoWeekday() === 7;
-          return (
-            <TouchableOpacity
-              disabled={isWeekend} // Deshabilitar la selección de sábados y domingos
-              onPress={() => setSelectedDate(date.dateString)} // Actualiza la fecha seleccionada
-            >
-              <View>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    color: state === 'disabled' || isWeekend ? 'gray' : date.dateString === hoy ? 'white' : 'black',
-                    fontWeight: date.dateString === selectedDate || date.dateString === hoy ? 'bold' : 'normal',
-                    backgroundColor: date.dateString === hoy ? 'red' : 'transparent',
-                    borderRadius: date.dateString === hoy ? 15 : 0,
-                    padding: 5,
-                  }}
-                >
-                  {date.day}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-        disableAllTouchEventsForDisabledDays={true} // No permitir interacción en días deshabilitados
-        firstDay={1} // Comienza la semana en lunes
-      />
-
-      <View style={styles.noCitasContainer}>
-        <Evillcons name="calendar" size={30} />
-        <Text style={styles.noCitasText}>No hay citas para hoy</Text>
-        <AntDesing name="arrowright" size={25} style={styles.arrowIcon} />
-      </View>
-
-      {/* Botón de registrar cita */}
-      <TouchableOpacity
-        style={[styles.registrarButton, { backgroundColor: todosCamposLlenos ? 'red' : 'gray' }]} // Deshabilitar botón si no están todos los campos llenos
-        onPress={registrarCita}
-        disabled={!todosCamposLlenos}
-      >
-        <Text style={styles.registrarButtonText}>Registrar Cita</Text>
-      </TouchableOpacity>
-
-      {/* Modal para mostrar los mensajes de error */}
-      <Modal
-        visible={modalVisible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
+      {/* Modal de feedback */}
+      <Modal visible={isFeedbackModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>{modalMessage}</Text>
-            <Pressable
-              style={styles.modalButton}
-              onPress={() => setModalVisible(false)}
+            <Text style={styles.modalText}>Califica tu experiencia</Text>
+            <View style={styles.feedbackOptions}>
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <TouchableOpacity
+                  key={rating}
+                  style={[
+                    styles.feedbackButton,
+                    feedbackRating === rating && styles.feedbackButtonSelected,
+                  ]}
+                  onPress={() => setFeedbackRating(rating)}
+                  disabled={isSubmittingFeedback}
+                >
+                  <Text style={styles.feedbackButtonText}>{rating}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <TouchableOpacity
+              style={styles.submitFeedbackButton}
+              onPress={handleFeedbackSubmit}
+              disabled={isSubmittingFeedback}
             >
-              <Text style={styles.modalButtonText}>Cerrar</Text>
-            </Pressable>
+              <Text style={styles.submitFeedbackButtonText}>
+                {isSubmittingFeedback ? 'Enviando...' : 'Enviar'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-        
       </Modal>
-   </View>
-   </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'red',
-    marginBottom: 20,
-  },
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    marginBottom: 10,
-    fontSize: 16,
-  },
-  calendar: {
-    marginBottom: 20,
-    borderRadius: 10,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    padding: 10,
-  },
-  monthHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'red',
-  },
-  noCitasContainer: {
-    backgroundColor: '#f0f0f0',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  noCitasText: {
-    fontSize: 16,
-    color: '#333',
-    marginRight: 10,
-  },
-  arrowIcon: {
-    marginLeft: 120,
-  },
-  registrarButton: {
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  registrarButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: 300,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalText: {
-    fontSize: 16,
-    marginBottom: 20,
-    color: '#333',
-    textAlign: 'center',
-  },
-  modalButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'red',
-    borderRadius: 5,
-  },
-  modalButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  title: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'red', marginBottom: 20 },
+  subtitle: { marginTop: -5, fontSize: 12, color: 'gray', textAlign: 'center', marginBottom:30 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  column: { flex: 1, marginHorizontal: 5 },
+  label: { fontSize: 14, fontWeight: 'bold', marginBottom: 10, color: '#333' },
+  label2: { fontSize: 14, fontWeight: 'bold', marginBottom: 10, color: '#333', marginTop: 10,},
+  input: { height: 50, color:'black', borderColor: '#ccc', borderWidth: 1, borderRadius: 10, paddingLeft: 10, fontSize: 14, marginBottom: 10 },
+  calendar: { marginBottom: 40, borderRadius: 10, borderColor: '#ccc', borderWidth: 1, padding: 10 },
+  textArea: { borderColor: '#ccc', color:'black', borderWidth: 1, borderRadius: 10, padding: 10, fontSize: 14, textAlignVertical: 'top', marginBottom: 10 },
+  registrarButton: { backgroundColor: 'red', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 20 },
+  registrarButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  errorText: { color: 'red', fontSize: 12, marginTop: 5 },
+  errorText2: { color: 'red', fontSize: 12, marginTop: -20, marginBottom:20, },
+  header: { height: 90, width: '100%', borderBottomLeftRadius: 1000, borderBottomRightRadius: 1000, overflow: 'hidden' },
+  headerContent: { position: 'absolute', top: 30, left: 0, right: 0, alignItems: 'center' },
+  headerText: { fontSize: 15, color: '#fff', textAlign: 'center', top: 15 },
+  bellIcon: { position: 'absolute', right: 35, top: 15 },
+  modalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+  modalContent: { width: 300, padding: 20, backgroundColor: '#fff', borderRadius: 10, alignItems: 'center' },
+  modalText: { fontSize: 16, marginBottom: 20, textAlign: 'center', fontWeight: 'bold', color: '#333' },
+  feedbackOptions: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20,  },
+  feedbackButton: {margin:5, width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: '#f0f0f0' , },
+  feedbackButtonSelected: { backgroundColor: 'red',  },
+  feedbackButtonText: { color: '#333', fontWeight: 'bold',  },
+  submitFeedbackButton: { backgroundColor: 'red', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10 },
+  submitFeedbackButtonText: { color: '#fff', fontWeight: 'bold' },
 });
