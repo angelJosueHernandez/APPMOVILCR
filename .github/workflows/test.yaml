@@ -60,32 +60,7 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
-      - name: Upload source maps to Sentry
-        run: |
-          npx sentry-cli releases files "$RELEASE" upload-sourcemaps ./path/to/sourcemaps --rewrite --org "uthh-ql" --project "cruz-roja"
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          RELEASE: "1.0.0"
-
-  build:
-    runs-on: ubuntu-latest
-    needs: build-and-upload
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build APK for Android
-        run: npx eas-cli build --platform android --profile preview --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
+         # 5. Obtener URL del artefacto y subir imagen
       - name: Upload image and send data to API
         run: |
           # Obtener URL del artefacto
@@ -120,10 +95,22 @@ jobs:
 
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          IMAGE_PATH: ".github/workflows/Emergencia2.png"
+          IMAGE_PATH: ".github/workflows/Emergencia2.png"  # Cambia esto a la ruta de tu icono
           WEB_SERVICE_URL: "https://labarbada.store/subirImagen.php"
-          API_URL: "https://api-admin-six.vercel.app/api/guardar-datos"
-          PROJECT_NAME: "Cruz Roja Huejutla"
+          API_URL: "https://api-admin-six.vercel.app/api/guardar-datos"  # Cambia por la URL de tu API
+          PROJECT_NAME: "Cruz Roja Huejutla"  # Cambia este valor por el nombre de tu proyecto
+
+      - name: Upload source maps to Sentry
+        run: |
+          npx sentry-cli releases files "$RELEASE" upload-sourcemaps ./path/to/sourcemaps --rewrite --org "uthh-ql" --project "cruz-roja"
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          RELEASE: "1.0.0"
+
+
+
+
+          
 
   notify_build:
     runs-on: ubuntu-latest
