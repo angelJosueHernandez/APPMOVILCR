@@ -235,9 +235,11 @@ export default function LoginScreen() {
                       />
                        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
 
-                      <Link _text={{ fontSize: "xs", fontWeight: "500", color: "blue.500" }} alignSelf="flex-end" mt="1" onPress={() => router.push('../screens/enviarToken')}>
+                     {/**
+                      * <Link _text={{ fontSize: "xs", fontWeight: "500", color: "blue.500" }} alignSelf="flex-end" mt="1" onPress={() => router.push('../screens/enviarToken')}>
                         ¿Olvidaste tu contraseña?
                       </Link>
+                      */}
                     </FormControl>
                     <Button mt="4" colorScheme="red" borderRadius="25px" py={3} w="100%" h="55px" style={styles.loginButton} onPress={handleLogin}   isDisabled={isLoading} >
                     {isLoading ? (
