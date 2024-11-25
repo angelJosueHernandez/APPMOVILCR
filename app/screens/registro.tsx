@@ -69,7 +69,7 @@ export default function Registro() {
     }
 
     try {
-      const response = await fetch('http://192.168.1.178:3000/user', {
+      const response = await fetch('https://api-beta-mocha-59.vercel.app/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

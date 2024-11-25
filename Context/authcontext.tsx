@@ -10,6 +10,9 @@ interface AuthContextProps {
   correoGuardar: string | null;
   setCorreoGuardar: (correo: string | null) => void;
   loading: boolean; // Estado de carga agregado
+
+  idUsuario: string | null; 
+  setIdUsuario: (id: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -28,6 +31,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [correoGuardar, setCorreoGuardar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true); // Estado de carga inicial
 
+
+  const [idUsuario, setIdUsuario] = useState<string | null>(null);
+
+
   useEffect(() => {
     const checkAuth = async () => {
       setLoading(true); // Inicia el estado de carga
@@ -38,6 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
           if (decodedToken && decodedToken.nombre && decodedToken.correo) {
             setIsAuthenticated(true);
+            setUser(decodedToken.ID_Usuario); // Asignar el ID del usuari
             setUser(decodedToken.nombre);
             setCorreoGuardar(decodedToken.correo);
           } else {
@@ -76,6 +84,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         correoGuardar,
         setCorreoGuardar,
         loading, // Pasar el estado de carga al contexto
+
+        idUsuario, 
+        setIdUsuario,
+
+        
       }}
     >
       {children}

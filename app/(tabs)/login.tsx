@@ -9,7 +9,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 const { width } = Dimensions.get('window');
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ActivityIndicator } from 'react-native';
-
+import ContratacionScreen from '@/components/contratacionesPerfil';
+import CitasScreen from '@/components/citasPerfil';
+import ProfileScreen from '@/components/perfil';
 export default function LoginScreen() {
   const router = useRouter();
   const { setIsAuthenticated, setCorreoGuardar, isAuthenticated, correoGuardar, user } = useAuth();
@@ -128,7 +130,9 @@ export default function LoginScreen() {
 
   if (isAuthenticated) {
     return (
-      <NativeBaseProvider>
+<NativeBaseProvider >
+        <ScrollView contentContainerStyle={{ flexGrow: 1,paddingBottom: 150, backgroundColor: '#FFF'}}
+                    style={{ flex: 1 }}>
           <LinearGradient
           colors={['#E5415C', '#E05C73']}
           style={styles.header}
@@ -138,11 +142,30 @@ export default function LoginScreen() {
             <Icon name="notifications" size={20} color="#fff" style={styles.bellIcon} />
           </View>
         </LinearGradient>
-        <View style={styles.container}>
-          <Text style={styles.welcomeText}>Bienvenido, {user}</Text>
-          <Text style={styles.emailText}>Correo guardado: {correoGuardar}</Text>
-          <Button onPress={() => setIsAuthenticated(false)} title="Cerrar sesión" />
-        </View>
+        
+          <View style={{ flex: 1, width: '100%' ,backgroundColor:'#fff' }}>
+            {/*<Text style={styles.welcomeText}>Bienvenido, {user}</Text>
+            <Text style={styles.emailText}>Correo guardado: {correoGuardar}</Text>*/}
+            
+            <View style={{ flex: 1, width: '100%' }}>
+              <ProfileScreen/>
+            </View>
+            <View style={{ flex: 1, width: '100%' }}>
+              <CitasScreen/>
+            </View>
+            <View style={{ flex: 1, width: '100%' }}>
+              <ContratacionScreen/>
+            </View>
+            
+            <Button onPress={() => setIsAuthenticated(false)} mt="1" colorScheme="red" borderRadius="25px" py={3} h="55px" style={{
+              width: '80%', 
+              alignSelf: 'center',
+            }}>
+              Cerrar sesión
+            </Button>
+          </View>
+        </ScrollView>
+        
       </NativeBaseProvider>
     );
   }

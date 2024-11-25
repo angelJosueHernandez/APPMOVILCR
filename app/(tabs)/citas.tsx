@@ -54,6 +54,7 @@ export default function RegistroCitas() {
   const [selectedHorario, setSelectedHorario] = useState<string | null>(null);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
 
+  
   const [servicios, setServicios] = useState([]);
 const [selectedServicio, setSelectedServicio] = useState<string>('');
 
