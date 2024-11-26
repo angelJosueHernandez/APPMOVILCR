@@ -394,6 +394,7 @@ headerContainer: {
   button: {
     padding: 10,
     borderRadius: 5,
+    marginLeft:245,
   },
   editButton: {
     backgroundColor: '#2f3e46',
@@ -405,6 +406,7 @@ headerContainer: {
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
+  
   },
   modalContainer: {
     flex: 1,
