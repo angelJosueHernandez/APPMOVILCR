@@ -236,7 +236,7 @@ export default function Registro() {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: '#FFF', flex: 1, marginBottom:20,},
+  container: { backgroundColor: '#FFF', flex: 1, marginBottom:30, marginTop:-20},
   scrollContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF', },
   subtitle: { marginTop: 10, marginBottom:20, paddingTop: 10, fontSize: 13, color: 'gray', textAlign: 'center' },
   formContainer: { marginTop: -50},
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   loginLink: { marginTop: -3 },
   loginLinkText: { color: 'blue', fontSize: 12, fontWeight: 'bold' },
   header: {
-    height: 90,
+    height: 100,
     width: '100%',
     borderBottomLeftRadius: 1000,
     borderBottomRightRadius: 1000,
@@ -265,11 +265,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#fff',
     textAlign: 'center',
-    top: 15,
+    top: 30,
   },
   bellIcon: {
     position: 'absolute',
-    right: 35,
-    top: 15,
+    right: 45,
+    top: 25,
   },
 });

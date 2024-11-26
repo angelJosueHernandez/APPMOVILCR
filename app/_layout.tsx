@@ -28,7 +28,7 @@ SplashScreen.preventAutoHideAsync();
     try {
       // Aquí puedes cargar recursos si lo deseas
       // Simula un tiempo de carga si es necesario
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 10));
       await SplashScreen.hideAsync(); // Oculta el SplashScreen nativo de Expo
       setIsAppReady(true); // Marca la app como lista
     } catch (e) {
