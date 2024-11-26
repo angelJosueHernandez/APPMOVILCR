@@ -119,7 +119,7 @@ export default function Registro() {
       >
         <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
           <Center w="100%" style={styles.container}>
-          <LinearGradient
+              <LinearGradient
           colors={['#E5415C', '#E05C73']}
           style={styles.header}
         >
@@ -136,21 +136,21 @@ export default function Registro() {
                 <HStack space={3}>
                   <FormControl w="48%">
                     <FormControl.Label><Text>Nombre</Text></FormControl.Label>
-                    <Input placeholder="Nombre" style={styles.inputField} value={nombre} onChangeText={setNombre} />
+                    <Input   borderRadius="10px"   borderRadius="10px" placeholder="Nombre" style={styles.inputField} value={nombre} onChangeText={setNombre} />
                   </FormControl>
                   <FormControl w="48%">
                     <FormControl.Label><Text>Apellido Paterno</Text></FormControl.Label>
-                    <Input placeholder="Apellido paterno" style={styles.inputField} value={apellidoPaterno} onChangeText={setApellidoPaterno} />
+                    <Input   borderRadius="10px" placeholder="Apellido paterno" style={styles.inputField} value={apellidoPaterno} onChangeText={setApellidoPaterno} />
                   </FormControl>
                 </HStack>
                 <HStack space={3}>
                   <FormControl w="48%">
                     <FormControl.Label><Text>Apellido Materno</Text></FormControl.Label>
-                    <Input placeholder="Apellido materno" style={styles.inputField} value={apellidoMaterno} onChangeText={setApellidoMaterno} />
+                    <Input   borderRadius="10px" placeholder="Apellido materno" style={styles.inputField} value={apellidoMaterno} onChangeText={setApellidoMaterno} />
                   </FormControl>
                   <FormControl w="48%">
                     <FormControl.Label><Text>Teléfono</Text></FormControl.Label>
-                    <Input 
+                    <Input   borderRadius="10px" 
                       placeholder="Teléfono" 
                       style={styles.inputField} 
                       value={telefono} 
@@ -162,11 +162,11 @@ export default function Registro() {
                 </HStack>
                 <FormControl>
                   <FormControl.Label><Text>Correo</Text></FormControl.Label>
-                  <Input placeholder="Correo" style={styles.inputField} value={correo} onChangeText={setCorreo} />
+                  <Input   borderRadius="10px" placeholder="Correo" style={styles.inputField} value={correo} onChangeText={setCorreo} />
                 </FormControl>
                 <FormControl>
                   <FormControl.Label><Text>Contraseña</Text></FormControl.Label>
-                  <Input
+                  <Input   borderRadius="10px"
                     placeholder="Contraseña"
                     secureTextEntry={!showPassword}
                     style={styles.inputField}
@@ -186,7 +186,7 @@ export default function Registro() {
                 </FormControl>
                 <FormControl>
                   <FormControl.Label><Text>Confirmar Contraseña</Text></FormControl.Label>
-                  <Input
+                  <Input   borderRadius="10px"
                     placeholder="Confirmar contraseña"
                     secureTextEntry={!showConfirmPassword}
                     style={styles.inputField}
@@ -238,9 +238,9 @@ export default function Registro() {
 const styles = StyleSheet.create({
   container: { backgroundColor: '#FFF', flex: 1, marginBottom:20,},
   scrollContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF', },
-  subtitle: { marginTop: 20, paddingTop: 10, fontSize: 16, color: 'gray', textAlign: 'center' },
-  formContainer: { marginTop: -50 },
-  inputField: { borderRadius: 20, height: 40, fontSize: 14, paddingHorizontal: 8 },
+  subtitle: { marginTop: 10, marginBottom:20, paddingTop: 10, fontSize: 13, color: 'gray', textAlign: 'center' },
+  formContainer: { marginTop: -50},
+  inputField: { borderRadius: 20, height: 40, fontSize: 12, paddingHorizontal: 8 },
   switchText: { fontSize: 12, color: 'gray' },
   registerButton: { backgroundColor: 'red', borderRadius: 25, height: 45, width: "80%", justifyContent: 'center', alignSelf: 'center' },
   googleButton: { borderRadius: 25, height: 45, width: "80%", justifyContent: 'center', alignSelf: 'center', borderColor: 'black' },

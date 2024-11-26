@@ -60,7 +60,7 @@ export default function AnimatedSplashScreen({ onAnimationEnd }) {
   return (
     <Animated.View  testID="pantalla-de-splash"  style={[styles.container, { opacity: splashOpacity, transform: [{ scale: splashScale }] }]}>
       {/* Imagen de fondo */}
-      <Image source={require('../../assets/images/fondo.jpeg')} style={styles.backgroundImage} />
+      <Image source={require('../../assets/images/fondo4.png')} style={styles.backgroundImage} />
 
       {/* Círculos animados */}
       {circles.map((circle, index) => (
@@ -75,15 +75,7 @@ export default function AnimatedSplashScreen({ onAnimationEnd }) {
           }]}/>
       ))}
 
-      {/* Imagen de la persona con gradiente superpuesto */}
-      <View style={styles.personImageContainer}>
-        <Image source={require('../../assets/images/p3.png')} style={styles.personImage} />
-        <LinearGradient
-          colors={['transparent', '#E5415C']} // Degradado desde transparente a color de fondo
-          style={styles.gradient}
-          locations={[0.6, 1]}
-        />
-      </View>
+
 
       {/* Spinner para simular carga */}
       <ActivityIndicator size="large" color="#fff" style={styles.spinner} />
@@ -109,7 +101,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     position: 'absolute',
     width: '100%',
-    height: '110%',
+    height: '100%',
     resizeMode: 'cover',
   },
   personImageContainer: {
@@ -120,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   personImage: {
-    width: '100%',
+    width: '90%',
     height: '100%',
     resizeMode: 'contain',
   },

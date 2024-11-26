@@ -24,25 +24,22 @@ SplashScreen.preventAutoHideAsync();
   const [isAppReady, setIsAppReady] = useState(false); // Control de si la app está lista
   const [showCustomSplash, setShowCustomSplash] = useState(true); // Control de splash personalizado
 
+  const prepareApp = async () => {
+    try {
+      // Aquí puedes cargar recursos si lo deseas
+      // Simula un tiempo de carga si es necesario
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      await SplashScreen.hideAsync(); // Oculta el SplashScreen nativo de Expo
+      setIsAppReady(true); // Marca la app como lista
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+  
   useEffect(() => {
-    
-    Sentry.captureException(new Error("Prueba de error en Sentry"));
-
-    const prepareApp = async () => {
-      try {
-        // Aquí puedes cargar recursos si lo deseas
-        setTimeout(async () => {
-          await SplashScreen.hideAsync(); // Esconde el SplashScreen nativo de Expo
-          setIsAppReady(true); // Marca la app como lista
-        }, 500); // Añadir un pequeño retraso para asegurar que el splash nativo se oculte correctamente
-      } catch (e) {
-        console.warn(e);
-      }
-    };
-
     prepareApp();
-  }, []); // El hook se ejecuta solo una vez al montar el componente
-
+  }, []);
+  
   // Mostrar el Splash Screen personalizado mientras la app se prepara
   if (!isAppReady) {
     return null; // Espera a que la app esté lista antes de mostrar algo
